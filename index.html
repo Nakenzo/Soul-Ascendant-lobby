@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soul Essence — Official Game Lobby & Download</title>
+  <meta name="description" content="Soul Essence: 2D top-down action roguelike. Download APK Android, Windows PC Setup, atau mainkan langsung di web browser.">
+  <meta property="og:title" content="Soul Essence — Official Game Portal">
+  <meta property="og:description" content="Rasakan pertempuran roguelike 60 FPS tanpa jeda. Unduh versi Android, PC Windows, atau mainkan versi Web.">
+  <meta property="og:image" content="assets/hero-bg.jpg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Outfit:wght@300;400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="soulCanvas"></canvas>
+  <div class="bg-backdrop"></div>
+  <div class="bg-vignette"></div>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand" id="navBrand">
+        <img src="assets/icon.png" alt="Soul Essence Logo" class="brand-logo" width="36" height="36">
+        <span class="brand-name">SOUL ESSENCE</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#downloads" class="nav-link" id="navLinkDownloads">Unduh Game</a>
+        <a href="#characters" class="nav-link" id="navLinkCharacters">Karakter</a>
+        <a href="#guide" class="nav-link" id="navLinkGuide">Panduan Pasang</a>
+        <a href="https://github.com/Nakenzo/Soul-Essence" target="_blank" rel="noopener noreferrer" class="nav-link github-pill" id="navGithub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+
+      <div class="audio-control">
+        <button id="btnAudioToggle" class="btn-audio" aria-label="Toggle Musik Suasana" title="Musik Suasana Lobby">
+          <svg id="iconAudioOff" class="audio-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg id="iconAudioOn" class="audio-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span class="audio-label" id="audioLabel">BGM OFF</span>
+        </button>
+        <audio id="audioLobby" loop preload="none">
+          <source src="assets/lobby.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>BUILD TERBARU • RILIS MULTIPLATFORM</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-sub">TAKDIR ELEMEN DAN JIWA</span>
+          <span class="title-main">SOUL ESSENCE</span>
+        </h1>
+
+        <p class="hero-description">
+          Aksi roguelike 2D berkecepatan tinggi dengan mesin Vanilla murni 60 FPS tanpa beban dependency.
+          Bertahan dari serbuan monster bayangan, racik sinergi artefak legendaris, dan kuasai elemen jiwa.
+        </p>
+
+        <div class="release-status-box" id="releaseStatusBox">
+          <div class="status-indicator">
+            <span class="pulse-ring"></span>
+            <span class="pulse-core"></span>
+          </div>
+          <span id="versionText">Memuat versi terbaru dari GitHub...</span>
+        </div>
+
+        <div class="hero-quick-stats">
+          <div class="stat-item">
+            <span class="stat-number">60 FPS</span>
+            <span class="stat-label">Ultra Responsif</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">3 ELEMEN</span>
+            <span class="stat-label">Es • Api • Petir</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">CLOUD SYNC</span>
+            <span class="stat-label">Lintas Perangkat</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads" class="platforms-section">
+      <div class="section-header">
+        <h2 class="section-title">PILIH PLATFORM BERMAIN</h2>
+        <p class="section-subtitle">Tersedia untuk Mobile Android, PC Desktop, atau mainkan instan di browser web favoritmu</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="platform-card card-android" id="cardAndroid">
+          <div class="card-glow"></div>
+          <div class="card-badge">APK LANGSUNG</div>
+          <div class="card-icon-wrapper">
+            <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4126 13.8533 8.085 12 8.085c-1.8534 0-3.5902.3276-5.1368.8647L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+            </svg>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">Mobile Android</h3>
+            <p class="card-desc">Paket file APK mandiri. Siap dipasang di smartphone atau tablet Android dengan kendali virtual joystick dan tombol sentuh khusus.</p>
+
+            <ul class="card-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Format APK (.apk) siap instal</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Android 8.0 Oreo ke atas</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Sentuhan haptic & joystick mulus</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-action">
+            <a href="https://github.com/Nakenzo/Soul-Essence/releases/latest/download/Soul-Essence.apk" class="btn-cta btn-android" id="btnDownloadAndroid" download>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download APK</span>
+            </a>
+            <span class="file-info" id="infoAndroid">Soul-Essence.apk</span>
+          </div>
+        </article>
+
+        <article class="platform-card card-pc" id="cardPc">
+          <div class="card-glow"></div>
+          <div class="card-badge">WINDOWS PC</div>
+          <div class="card-icon-wrapper">
+            <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.801"/>
+            </svg>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">PC Desktop</h3>
+            <p class="card-desc">Aplikasi desktop berkecepatan tinggi bertenaga Tauri 2.0. Ukuran sangat hemat, konsumsi RAM minim, dan kontrol keyboard-mouse presisi.</p>
+
+            <ul class="card-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Installer Setup (.exe) resmi</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Windows 10 / Windows 11 (64-bit)</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Dukungan paket .msi opsional</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-action">
+            <a href="https://github.com/Nakenzo/Soul-Essence/releases/latest/download/Soul-Essence-Setup.exe" class="btn-cta btn-pc" id="btnDownloadPc">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download PC (.exe)</span>
+            </a>
+            <div class="sub-links">
+              <a href="https://github.com/Nakenzo/Soul-Essence/releases/latest/download/Soul-Essence.msi" class="sub-link" id="linkDownloadMsi">Atau unduh paket MSI (.msi)</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="platform-card card-web featured" id="cardWeb">
+          <div class="card-glow"></div>
+          <div class="card-badge pulse-badge">INSTAN DI BROWSER</div>
+          <div class="card-icon-wrapper">
+            <svg class="platform-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">Versi Web Browser</h3>
+            <p class="card-desc">Bermain seketika tanpa perlu unduh berkas instalasi. Mendukung penyimpanan awan Supabase dan instalasi offline PWA di browser modern.</p>
+
+            <ul class="card-features">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Buka langsung & siap tempur</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Dapat diinstall sebagai PWA</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Sinkronisasi Akun & Progres Online</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-action">
+            <a href="https://nakenzo.github.io/Soul-Essence/" target="_blank" rel="noopener noreferrer" class="btn-cta btn-web" id="btnPlayWeb">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Mainkan Versi Web</span>
+            </a>
+            <span class="file-info" id="infoWeb">https://nakenzo.github.io/Soul-Essence/</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="characters" class="characters-section">
+      <div class="section-header">
+        <h2 class="section-title">PENJAGA ELEMEN</h2>
+        <p class="section-subtitle">Tiga pendekar legendaris dengan gaya bertarung dan kedahsyatan elemen yang unik</p>
+      </div>
+
+      <div class="characters-grid">
+        <div class="char-card char-ice">
+          <div class="char-aura"></div>
+          <div class="char-tag">ELEMEN ES</div>
+          <h3 class="char-name">Kenzro</h3>
+          <p class="char-role">Pemanah Jarak Jauh</p>
+          <p class="char-desc">Mengendalikan badai es dari kejauhan. Menembakkan panah es yang menembus barisan monster dan membekukan musuh lewat ultimate Frozfall.</p>
+          <div class="char-stats">
+            <div class="stat-bar-group">
+              <span class="bar-title">Jarak Serang</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div>
+            </div>
+            <div class="stat-bar-group">
+              <span class="bar-title">Kelincahan</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 85%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card char-fire">
+          <div class="char-aura"></div>
+          <div class="char-tag">ELEMEN API</div>
+          <h3 class="char-name">Vender</h3>
+          <p class="char-role">Penebas Sabit Neraka</p>
+          <p class="char-desc">Ahli pertarungan jarak dekat dengan sabit api menyala. Membakar gerombolan musuh di sekitarnya dan memanen jiwa dengan daya tahan tinggi.</p>
+          <div class="char-stats">
+            <div class="stat-bar-group">
+              <span class="bar-title">Area Damage</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 90%;"></div></div>
+            </div>
+            <div class="stat-bar-group">
+              <span class="bar-title">Daya Tahan HP</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 80%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card char-thunder">
+          <div class="char-aura"></div>
+          <div class="char-tag">ELEMEN PETIR</div>
+          <h3 class="char-name">Voiz</h3>
+          <p class="char-role">Penyihir Kilat</p>
+          <p class="char-desc">Menyalurkan tegangan tinggi petir yang merambat antar target. Menghempaskan serangan badai listrik beruntun dengan kecepatan tinggi.</p>
+          <div class="char-stats">
+            <div class="stat-bar-group">
+              <span class="bar-title">Kecepatan Serang</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 90%;"></div></div>
+            </div>
+            <div class="stat-bar-group">
+              <span class="bar-title">Chain Damage</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="guide" class="guide-section">
+      <div class="section-header">
+        <h2 class="section-title">PANDUAN PEMASANGAN</h2>
+        <p class="section-subtitle">Langkah cepat untuk mulai bermain di perangkat pilihanmu</p>
+      </div>
+
+      <div class="guide-grid">
+        <div class="guide-step">
+          <div class="step-badge">1</div>
+          <h3 class="step-title">Cara Pasang di Android</h3>
+          <p class="step-text">Unduh file <strong>Soul-Essence.apk</strong> dari tombol di atas. Buka notifikasi unduhan, lalu jika diminta izinkan opsi <em>"Pasang aplikasi dari sumber ini"</em> di pengaturan keamanan Android. Tekan Install dan game siap dimainkan.</p>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">2</div>
+          <h3 class="step-title">Cara Pasang di Windows PC</h3>
+          <p class="step-text">Unduh <strong>Soul-Essence-Setup.exe</strong>. Jalankan berkas pemasang, ikuti langkah wizard di layar sampai selesai. Ikon game akan muncul di desktop dan siap dijalankan dengan performa native tanpa emulator.</p>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">3</div>
+          <h3 class="step-title">Cara Main di Web & PWA</h3>
+          <p class="step-text">Klik tombol <strong>Mainkan Versi Web</strong>. Game langsung terbuka di browser tanpa instalasi. Untuk menyimpan sebagai aplikasi offline di HP atau PC, klik tombol <em>"Install App"</em> di bilah alamat browser.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand">
+          <img src="assets/icon.png" alt="Soul Essence Logo" class="brand-logo" width="28" height="28">
+          <span class="brand-name">SOUL ESSENCE</span>
+        </div>
+        <p class="footer-desc">2D Top-Down Action Roguelike Game. Dibuat dengan cinta, performa murni tanpa kompromi, dan teknologi web modern.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Tautan Cepat</h4>
+        <ul>
+          <li><a href="https://github.com/Nakenzo/Soul-Essence/releases/latest" target="_blank" rel="noopener noreferrer">Semua Rilis GitHub</a></li>
+          <li><a href="https://nakenzo.github.io/Soul-Essence/" target="_blank" rel="noopener noreferrer">Akses Game Web Langsung</a></li>
+          <li><a href="https://github.com/Nakenzo/Soul-Essence/issues" target="_blank" rel="noopener noreferrer">Laporkan Masalah</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Repositori</h4>
+        <ul>
+          <li><a href="https://github.com/Nakenzo/Soul-Essence" target="_blank" rel="noopener noreferrer">Kode Sumber Game</a></li>
+          <li><a href="https://github.com/Nakenzo" target="_blank" rel="noopener noreferrer">Profil Developer (Nakenzo)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Soul Essence. All rights reserved. Open-source roguelike game.</p>
+    </div>
+  </footer>
+
+  <script src="lobby.js"></script>
+</body>
+</html>
