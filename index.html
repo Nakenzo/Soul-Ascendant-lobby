@@ -67,10 +67,7 @@
         </div>
 
         <div class="hero-logo-box">
-          <div class="logo-stack">
-            <img src="assets/logo-aura.png" alt="" class="logo-aura" draggable="false" aria-hidden="true">
-            <img src="assets/logo-kamu.png" alt="Soul Essence" class="img-logo" draggable="false">
-          </div>
+          <img src="assets/logo-soul-essence.svg" alt="Soul Essence" class="soul-essence-logo" width="380" height="84">
         </div>
 
         <p class="hero-description">
@@ -248,6 +245,8 @@
         <p class="section-subtitle">Padukan 2 atribut elemen berbeda pada musuh untuk memicu ledakan reaksi dahsyat di medan tempur</p>
       </div>
 
+      <div class="element-picker-bar" id="elementPickerBar"></div>
+
       <div class="chart-wrapper">
         <div class="chart-container">
           <svg id="reactionChartSvg" viewBox="0 0 600 600" class="reaction-svg">
@@ -256,20 +255,31 @@
                 <feGaussianBlur stdDeviation="3" result="blur"/>
                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
               </filter>
+              <filter id="nodeGlow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
             </defs>
 
-            <circle cx="300" cy="300" r="230" class="chart-orbit-ring"/>
-            <circle cx="300" cy="300" r="145" class="chart-orbit-inner"/>
+            <circle cx="300" cy="300" r="210" class="chart-orbit-ring"/>
+            <circle cx="300" cy="300" r="130" class="chart-orbit-inner"/>
 
             <g id="chartLinesGroup" class="chart-lines"></g>
-            <g id="chartLabelsGroup" class="chart-labels"></g>
-          </svg>
+            <g id="chartBadgesGroup" class="chart-badges"></g>
 
-          <div id="chartNodesContainer" class="chart-nodes"></div>
+            <g id="chartCenterGroup" class="chart-center">
+              <circle cx="300" cy="300" r="50" class="center-core-bg"/>
+              <circle cx="300" cy="300" r="46" class="center-core-ring"/>
+              <text x="300" y="295" id="centerFormulaText" class="center-formula">PILIH ELEMEN</text>
+              <text x="300" y="312" id="centerActionText" class="center-sub">KLIK IKON</text>
+            </g>
+
+            <g id="chartNodesGroup" class="chart-nodes"></g>
+          </svg>
         </div>
 
         <div class="reaction-inspector" id="reactionInspector">
-          <div class="inspector-badge">DETAIL REAKSI AKTIF</div>
+          <div class="inspector-badge" id="inspectorCatBadge">REAKSI ENERGI TINGGI</div>
           <div class="inspector-header">
             <div class="inspector-icons" id="inspectorIcons">
               <img src="assets/element-api.svg" alt="Api" class="elem-mini" id="inspIcon1">
@@ -285,12 +295,12 @@
           <div class="inspector-body">
             <p class="inspector-desc" id="inspectorDesc">Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.</p>
             <div class="inspector-tip" id="inspectorTip">
-              <strong>Taktik:</strong> Gunakan Kenzro untuk membekukan/mendinginkan musuh terlebih dahulu, lalu tebas dengan sabit api Vender untuk burst damage masif.
+              <strong>Taktik:</strong> Dinginkan musuh dengan panah es Kenzro lalu sambut dengan sabit api Vender untuk damage puncak.
             </div>
           </div>
 
           <div class="inspector-instruction">
-            <span>Klik atau arahkan kursor ke ikon elemen di diagram untuk melihat reaksi lainnya.</span>
+            <span>Pilih elemen di diagram atau tombol di atas untuk melihat detail reaksi sinergi.</span>
           </div>
         </div>
       </div>

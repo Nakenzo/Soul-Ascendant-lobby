@@ -467,9 +467,13 @@
     }
   ];
 
+  const svg = document.getElementById("reactionChartSvg");
   const linesGroup = document.getElementById("chartLinesGroup");
-  const labelsGroup = document.getElementById("chartLabelsGroup");
-  const nodesContainer = document.getElementById("chartNodesContainer");
+  const badgesGroup = document.getElementById("chartBadgesGroup");
+  const nodesGroup = document.getElementById("chartNodesGroup");
+  const pickerBar = document.getElementById("elementPickerBar");
+  const centerFormulaText = document.getElementById("centerFormulaText");
+  const centerActionText = document.getElementById("centerActionText");
   const grid = document.getElementById("reactionsGrid");
 
   const inspTitle = document.getElementById("inspectorTitle");
@@ -478,11 +482,13 @@
   const inspTip = document.getElementById("inspectorTip");
   const inspIcon1 = document.getElementById("inspIcon1");
   const inspIcon2 = document.getElementById("inspIcon2");
+  const inspCatBadge = document.getElementById("inspectorCatBadge");
 
   const CENTER = 300;
-  const RADIUS = 220;
+  const RADIUS = 210;
 
-  let selectedElementId = null;
+  let selectedElementId = "api";
+  let selectedReactionId = "melt";
   let activeFilter = "all";
 
   function getElementById(id) {
@@ -497,41 +503,88 @@
     };
   }
 
-  function renderNodes() {
-    if (!nodesContainer) return;
-    nodesContainer.innerHTML = "";
+  function renderPickerBar() {
+    if (!pickerBar) return;
+    pickerBar.innerHTML = "";
 
     ELEMENTS.forEach(function(el) {
-      const coords = getElementCoords(el);
-      const btn = document.createElement("div");
-      btn.className = "elem-node";
-      btn.dataset.id = el.id;
-      btn.style.left = coords.x + "px";
-      btn.style.top = coords.y + "px";
-      btn.style.setProperty("--node-color", el.color);
-      btn.style.setProperty("--node-glow", el.color + "88");
+      const btn = document.createElement("button");
+      btn.className = "picker-btn" + (selectedElementId === el.id ? " active" : "");
+      btn.setAttribute("type", "button");
+      btn.setAttribute("data-id", el.id);
+      btn.style.setProperty("--btn-color", el.color);
+      btn.style.setProperty("--btn-glow", el.color + "66");
 
       btn.innerHTML =
-        '<img src="' + el.icon + '" alt="' + el.name + '" class="node-icon">' +
-        '<span class="node-label">' + el.name + '</span>';
+        '<img src="' + el.icon + '" alt="' + el.name + '" class="picker-icon">' +
+        '<span>' + el.name + '</span>';
 
       btn.addEventListener("click", function() {
-        if (selectedElementId === el.id) {
-          selectedElementId = null;
-        } else {
-          selectedElementId = el.id;
-        }
-        updateDiagramState();
+        selectElement(el.id);
       });
 
-      nodesContainer.appendChild(btn);
+      pickerBar.appendChild(btn);
     });
   }
 
-  function renderLines() {
-    if (!linesGroup || !labelsGroup) return;
+  function renderNodes() {
+    if (!nodesGroup) return;
+    nodesGroup.innerHTML = "";
+
+    ELEMENTS.forEach(function(el) {
+      const coords = getElementCoords(el);
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "chart-node" + (selectedElementId === el.id ? " active" : ""));
+      g.setAttribute("data-id", el.id);
+      g.setAttribute("transform", "translate(" + coords.x.toFixed(1) + "," + coords.y.toFixed(1) + ")");
+
+      const halo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      halo.setAttribute("class", "node-halo");
+      halo.setAttribute("r", "32");
+      halo.setAttribute("fill", "none");
+      halo.setAttribute("stroke", el.color);
+      halo.setAttribute("stroke-width", "2");
+      halo.setAttribute("opacity", selectedElementId === el.id ? "0.85" : "0.35");
+
+      const bg = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      bg.setAttribute("class", "node-bg");
+      bg.setAttribute("r", "25");
+      bg.setAttribute("fill", "#090e17");
+      bg.setAttribute("stroke", el.color);
+      bg.setAttribute("stroke-width", selectedElementId === el.id ? "3" : "2.5");
+
+      const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+      img.setAttribute("href", el.icon);
+      img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", el.icon);
+      img.setAttribute("x", "-15");
+      img.setAttribute("y", "-15");
+      img.setAttribute("width", "30");
+      img.setAttribute("height", "30");
+      img.setAttribute("pointer-events", "none");
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "node-label");
+      label.setAttribute("x", "0");
+      label.setAttribute("y", "42");
+      label.textContent = el.name.toUpperCase();
+
+      g.appendChild(halo);
+      g.appendChild(bg);
+      g.appendChild(img);
+      g.appendChild(label);
+
+      g.addEventListener("click", function() {
+        selectElement(el.id);
+      });
+
+      nodesGroup.appendChild(g);
+    });
+  }
+
+  function renderLinesAndBadges() {
+    if (!linesGroup || !badgesGroup) return;
     linesGroup.innerHTML = "";
-    labelsGroup.innerHTML = "";
+    badgesGroup.innerHTML = "";
 
     REACTIONS.forEach(function(r) {
       const e1 = getElementById(r.e1);
@@ -541,16 +594,19 @@
       const p1 = getElementCoords(e1);
       const p2 = getElementCoords(e2);
 
+      const isConnected = r.e1 === selectedElementId || r.e2 === selectedElementId;
+      const isSelectedReact = r.id === selectedReactionId;
+
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", p1.x);
-      line.setAttribute("y1", p1.y);
-      line.setAttribute("x2", p2.x);
-      line.setAttribute("y2", p2.y);
+      line.setAttribute("x1", p1.x.toFixed(1));
+      line.setAttribute("y1", p1.y.toFixed(1));
+      line.setAttribute("x2", p2.x.toFixed(1));
+      line.setAttribute("y2", p2.y.toFixed(1));
       line.setAttribute("stroke", e1.color);
-      line.setAttribute("class", "chart-line");
-      line.dataset.reactId = r.id;
-      line.dataset.e1 = r.e1;
-      line.dataset.e2 = r.e2;
+      line.setAttribute("class", "chart-line" + (isSelectedReact ? " selected-react" : (isConnected ? " active" : " dimmed")));
+      line.setAttribute("data-react-id", r.id);
+      line.setAttribute("data-e1", r.e1);
+      line.setAttribute("data-e2", r.e2);
 
       line.addEventListener("click", function() {
         selectReaction(r);
@@ -561,97 +617,168 @@
       const midX = (p1.x + p2.x) / 2;
       const midY = (p1.y + p2.y) / 2;
 
-      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      text.setAttribute("x", midX);
-      text.setAttribute("y", midY);
-      text.setAttribute("class", "chart-tag-text");
-      text.dataset.reactId = r.id;
-      text.textContent = r.name;
+      const gBadge = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      gBadge.setAttribute("class", "reaction-badge-group");
+      gBadge.setAttribute("data-react-id", r.id);
+      gBadge.setAttribute("data-e1", r.e1);
+      gBadge.setAttribute("data-e2", r.e2);
+      gBadge.setAttribute("transform", "translate(" + midX.toFixed(1) + "," + midY.toFixed(1) + ")");
+      if (!isConnected) {
+        gBadge.style.display = "none";
+      }
 
-      labelsGroup.appendChild(text);
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      const badgeW = Math.max(56, r.name.length * 6.5 + 16);
+      rect.setAttribute("x", (-badgeW / 2).toFixed(1));
+      rect.setAttribute("y", "-10");
+      rect.setAttribute("width", badgeW.toFixed(1));
+      rect.setAttribute("height", "20");
+      rect.setAttribute("rx", "10");
+      rect.setAttribute("class", "badge-bg");
+      rect.setAttribute("fill", "#090e17");
+      rect.setAttribute("stroke", e1.color);
+      rect.setAttribute("stroke-width", isSelectedReact ? "2" : "1.5");
+
+      const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      txt.setAttribute("class", "badge-text");
+      txt.setAttribute("x", "0");
+      txt.setAttribute("y", "0.5");
+      txt.setAttribute("text-anchor", "middle");
+      txt.setAttribute("fill", "#f8fafc");
+      txt.textContent = r.name;
+
+      gBadge.appendChild(rect);
+      gBadge.appendChild(txt);
+
+      gBadge.addEventListener("click", function() {
+        selectReaction(r);
+      });
+
+      badgesGroup.appendChild(gBadge);
     });
   }
 
-  function selectReaction(r) {
-    if (!inspTitle) return;
-    const e1 = getElementById(r.e1);
-    const e2 = getElementById(r.e2);
-    if (!e1 || !e2) return;
+  function selectElement(id) {
+    selectedElementId = id;
 
-    inspTitle.textContent = r.name;
-    inspFormula.textContent = e1.name + " + " + e2.name;
-    inspDesc.textContent = r.desc;
-    inspTip.innerHTML = "<strong>Taktik:</strong> " + r.tip.replace(/^Taktik:\s*/, "");
+    const pickerBtns = document.querySelectorAll(".picker-btn");
+    pickerBtns.forEach(function(btn) {
+      if (btn.getAttribute("data-id") === id) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
 
-    inspIcon1.src = e1.icon;
-    inspIcon1.alt = e1.name;
-    inspIcon2.src = e2.icon;
-    inspIcon2.alt = e2.name;
-  }
-
-  function updateDiagramState() {
-    const nodes = document.querySelectorAll(".elem-node");
-    const lines = document.querySelectorAll(".chart-line");
-    const tags = document.querySelectorAll(".chart-tag-text");
-
-    if (!selectedElementId) {
-      nodes.forEach(function(n) {
-        n.classList.remove("selected", "dimmed");
-      });
-      lines.forEach(function(l) {
-        l.classList.remove("active", "inactive");
-      });
-      tags.forEach(function(t) {
-        t.classList.remove("active", "inactive");
-      });
-      return;
-    }
-
+    const nodes = document.querySelectorAll(".chart-node");
     nodes.forEach(function(n) {
-      if (n.dataset.id === selectedElementId) {
-        n.classList.add("selected");
+      const nid = n.getAttribute("data-id");
+      if (nid === id) {
+        n.classList.add("active");
         n.classList.remove("dimmed");
       } else {
         const isConnected = REACTIONS.some(function(r) {
-          return (r.e1 === selectedElementId && r.e2 === n.dataset.id) ||
-                 (r.e2 === selectedElementId && r.e1 === n.dataset.id);
+          return (r.e1 === id && r.e2 === nid) || (r.e2 === id && r.e1 === nid);
         });
         if (isConnected) {
-          n.classList.remove("selected", "dimmed");
+          n.classList.remove("active", "dimmed");
         } else {
           n.classList.add("dimmed");
-          n.classList.remove("selected");
+          n.classList.remove("active");
         }
       }
     });
 
+    const lines = document.querySelectorAll(".chart-line");
     lines.forEach(function(l) {
-      if (l.dataset.e1 === selectedElementId || l.dataset.e2 === selectedElementId) {
+      const e1 = l.getAttribute("data-e1");
+      const e2 = l.getAttribute("data-e2");
+      if (e1 === id || e2 === id) {
         l.classList.add("active");
-        l.classList.remove("inactive");
+        l.classList.remove("dimmed");
       } else {
-        l.classList.add("inactive");
-        l.classList.remove("active");
+        l.classList.add("dimmed");
+        l.classList.remove("active", "selected-react");
       }
     });
 
-    tags.forEach(function(t) {
-      const r = REACTIONS.find(function(item) { return item.id === t.dataset.reactId; });
-      if (r && (r.e1 === selectedElementId || r.e2 === selectedElementId)) {
-        t.classList.add("active");
-        t.classList.remove("inactive");
+    const badges = document.querySelectorAll(".reaction-badge-group");
+    badges.forEach(function(b) {
+      const e1 = b.getAttribute("data-e1");
+      const e2 = b.getAttribute("data-e2");
+      if (e1 === id || e2 === id) {
+        b.style.display = "block";
       } else {
-        t.classList.add("inactive");
-        t.classList.remove("active");
+        b.style.display = "none";
       }
     });
 
-    const firstReact = REACTIONS.find(function(r) {
-      return r.e1 === selectedElementId || r.e2 === selectedElementId;
+    const activeReact = REACTIONS.find(function(r) {
+      return (r.e1 === id && r.e2 === selectedReactionId) ||
+             (r.e2 === id && r.e1 === selectedReactionId) ||
+             (r.id === selectedReactionId && (r.e1 === id || r.e2 === id));
+    }) || REACTIONS.find(function(r) {
+      return r.e1 === id || r.e2 === id;
     });
-    if (firstReact) {
-      selectReaction(firstReact);
+
+    if (activeReact) {
+      selectReaction(activeReact);
     }
+  }
+
+  function selectReaction(r) {
+    if (!r) return;
+    selectedReactionId = r.id;
+
+    const e1 = getElementById(r.e1);
+    const e2 = getElementById(r.e2);
+    if (!e1 || !e2) return;
+
+    if (inspTitle) inspTitle.textContent = r.name;
+    if (inspFormula) inspFormula.textContent = e1.name + " + " + e2.name;
+    if (inspDesc) inspDesc.textContent = r.desc;
+    if (inspTip) inspTip.innerHTML = "<strong>Taktik:</strong> " + r.tip.replace(/^Taktik:\s*/, "");
+
+    if (inspIcon1) {
+      inspIcon1.src = e1.icon;
+      inspIcon1.alt = e1.name;
+    }
+    if (inspIcon2) {
+      inspIcon2.src = e2.icon;
+      inspIcon2.alt = e2.name;
+    }
+
+    if (inspCatBadge) {
+      const catMap = {
+        energi: "REAKSI ENERGI TINGGI",
+        angin: "PUSARAN ANGIN (SWIRL)",
+        tanah: "DEFENSIF & IMPAK TANAH",
+        nihil: "KOROSI KEHAMPAAN",
+        fisik: "REAKSI FISIK & KINETIK"
+      };
+      inspCatBadge.textContent = catMap[r.cat] || "REAKSI SINERGI";
+    }
+
+    if (centerFormulaText) centerFormulaText.textContent = r.name;
+    if (centerActionText) centerActionText.textContent = e1.name + " + " + e2.name;
+
+    const lines = document.querySelectorAll(".chart-line");
+    lines.forEach(function(l) {
+      if (l.getAttribute("data-react-id") === r.id) {
+        l.classList.add("selected-react");
+      } else {
+        l.classList.remove("selected-react");
+      }
+    });
+
+    const cards = document.querySelectorAll(".reaction-card");
+    cards.forEach(function(c) {
+      if (c.getAttribute("data-react-id") === r.id) {
+        c.classList.add("highlight");
+      } else {
+        c.classList.remove("highlight");
+      }
+    });
   }
 
   function renderGrid() {
@@ -669,8 +796,8 @@
       if (!e1 || !e2) return;
 
       const card = document.createElement("div");
-      card.className = "reaction-card";
-      card.dataset.reactId = r.id;
+      card.className = "reaction-card" + (r.id === selectedReactionId ? " highlight" : "");
+      card.setAttribute("data-react-id", r.id);
 
       card.innerHTML =
         '<div class="card-top">' +
@@ -686,9 +813,8 @@
         '<p class="react-desc-text">' + r.desc + '</p>';
 
       card.addEventListener("click", function() {
+        selectElement(r.e1);
         selectReaction(r);
-        selectedElementId = r.e1;
-        updateDiagramState();
         const section = document.getElementById("reactions");
         if (section) section.scrollIntoView({ behavior: "smooth" });
       });
@@ -705,18 +831,20 @@
       btn.addEventListener("click", function() {
         filterBtns.forEach(function(b) { b.classList.remove("active"); });
         btn.classList.add("active");
-        activeFilter = btn.dataset.filter || "all";
+        activeFilter = btn.getAttribute("data-filter") || "all";
         renderGrid();
       });
     });
   }
 
+  renderPickerBar();
   renderNodes();
-  renderLines();
+  renderLinesAndBadges();
   renderGrid();
   initFilters();
 
   if (REACTIONS.length > 0) {
+    selectElement("api");
     selectReaction(REACTIONS[0]);
   }
 })();
