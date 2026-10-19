@@ -208,13 +208,13 @@
 (function() {
   const ELEMENTS = [
     { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 440, y: 120, labelX: 0, labelY: -46 },
-    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 690, y: 240, labelX: 44, labelY: -22 },
-    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 752, y: 511, labelX: 48, labelY: 6 },
-    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 579, y: 728, labelX: 36, labelY: 38 },
-    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 301, y: 728, labelX: -36, labelY: 38 },
-    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 128, y: 511, labelX: -48, labelY: 6 },
-    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 190, y: 240, labelX: -44, labelY: -22 },
-    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 440, y: 440, labelX: 0, labelY: 48 }
+    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 690, y: 240, labelX: 48, labelY: -20 },
+    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 752, y: 511, labelX: 52, labelY: 4 },
+    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 579, y: 728, labelX: 0, labelY: 46 },
+    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 301, y: 728, labelX: 0, labelY: 46 },
+    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 128, y: 511, labelX: -52, labelY: 4 },
+    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 190, y: 240, labelX: -48, labelY: -20 },
+    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 440, y: 440, labelX: 0, labelY: -46 }
   ];
 
   const REACTIONS = [
@@ -224,7 +224,7 @@
       e2: "es",
       name: "SHATTER",
       label: "SHATTER x2.5",
-      badgeT: 0.52,
+      badgeT: 0.50,
       cat: "fisik",
       desc: "Memecahkan kristal es musuh dengan damage kritis instan x2.5 lipat dan menyebarkan serpihan es.",
       tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
@@ -235,7 +235,7 @@
       e2: "api",
       name: "SPARK",
       label: "SPARK",
-      badgeT: 0.52,
+      badgeT: 0.45,
       cat: "fisik",
       desc: "Letupan percikan gesekan bara (+25% Crit Damage + Micro Knockback mundur).",
       tip: "Taktik: Beri jarak aman bagi pemain jarak dekat saat menyerang musuh membara."
@@ -302,7 +302,7 @@
       e2: "petir",
       name: "OVERLOAD",
       label: "OVERLOAD",
-      badgeT: 0.50,
+      badgeT: 0.52,
       cat: "energi",
       desc: "Ledakan plasma dahsyat berskala AoE yang mementalkan musuh di dekatnya.",
       tip: "Taktik: Efektif membubarkan formasi kerumunan monster kecil yang mengepung karakter."
@@ -313,7 +313,7 @@
       e2: "nature",
       name: "COMBUSTION",
       label: "COMBUSTION",
-      badgeT: 0.32,
+      badgeT: 0.72,
       cat: "energi",
       desc: "Kobaran api hayati membakar hebat dengan DoT tinggi yang bisa menyebar ke musuh lain.",
       tip: "Taktik: Tempelkan benih nature lalu sulut dengan api untuk damage bakar berkepanjangan."
@@ -346,7 +346,7 @@
       e2: "nature",
       name: "FROSTBITE SPORE",
       label: "FROSTBITE",
-      badgeT: 0.68,
+      badgeT: 0.70,
       cat: "energi",
       desc: "Spora es meletus, membekukan musuh di sekitar target selama 1.5 detik.",
       tip: "Taktik: Hentikan laju monster cepat agar posisinya terkunci di arena."
@@ -358,7 +358,7 @@
       e2: "api",
       name: "FLAME CORROSION",
       label: "FLAME CORR",
-      badgeT: 0.30,
+      badgeT: 0.28,
       cat: "nihil",
       desc: "Korosi api hitam yang menggerogoti HP musuh dan menular ke monster lain yang bersentuhan.",
       tip: "Taktik: Api hitam akan terus menyebar selama musuh bergerombol rapat."
@@ -403,7 +403,7 @@
       e2: "api",
       name: "FIRE SWIRL",
       label: "FIRE SWIRL",
-      badgeT: 0.30,
+      badgeT: 0.28,
       cat: "angin",
       desc: "Pusaran badai api menyerap elemen dan menyebarkan aura bakar ke seluruh musuh di sekitar.",
       tip: "Taktik: Menyebarkan status bakar ke seluruh gerombolan musuh hanya dengan satu hembusan."
@@ -448,7 +448,7 @@
       e2: "api",
       name: "FIRE CRYSTALLIZE",
       label: "FIRE CRYST",
-      badgeT: 0.28,
+      badgeT: 0.26,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai api di lantai; memberikan perisai penyerap damage api.",
       tip: "Taktik: Ambil pecahan kristal agar kebal terhadap serangan bara musuh."
@@ -459,7 +459,7 @@
       e2: "es",
       name: "FROST CRYSTALLIZE",
       label: "FROST CRYST",
-      badgeT: 0.30,
+      badgeT: 0.28,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai es; memberikan perisai penyerap damage es.",
       tip: "Taktik: Menangkal efek beku dari serangan bos berelemen es."
@@ -594,8 +594,11 @@
       const ex = e2.x - ux * r2;
       const ey = e2.y - uy * r2;
 
+      const isConnected = r.e1 === selectedElementId || r.e2 === selectedElementId;
+      const isSelected = r.id === selectedReactionId;
+
       const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("class", "cable-conduit" + (r.id === selectedReactionId ? " selected active" : ""));
+      g.setAttribute("class", "cable-conduit" + (isSelected ? " selected active" : (isConnected ? " active" : " dimmed")));
       g.setAttribute("data-react-id", r.id);
       g.setAttribute("data-e1", r.e1);
       g.setAttribute("data-e2", r.e2);
