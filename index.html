@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soul Essence — Official Game Lobby & Download</title>
+  <title>Soul Essence — Official Game Lobby & Elemental Reactions</title>
   <meta name="description" content="Soul Essence: 2D top-down action roguelike. Download APK Android, Windows PC Setup, atau mainkan langsung di web browser.">
   <meta property="og:title" content="Soul Essence — Official Game Portal">
-  <meta property="og:description" content="Rasakan pertempuran roguelike 60 FPS tanpa jeda. Unduh versi Android, PC Windows, atau mainkan versi Web.">
+  <meta property="og:description" content="Kuasai 8 elemen jiwa dan padukan reaksi elemental untuk memusnahkan monster bayangan.">
   <meta property="og:image" content="assets/hero-bg.jpg">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
 
       <nav class="nav-links">
         <a href="#downloads" class="nav-link" id="navLinkDownloads">Unduh Game</a>
-        <a href="#characters" class="nav-link" id="navLinkCharacters">Karakter</a>
+        <a href="#reactions" class="nav-link" id="navLinkReactions">Reaksi Elemen</a>
         <a href="#guide" class="nav-link" id="navLinkGuide">Panduan Pasang</a>
         <a href="https://github.com/Nakenzo/Soul-Essence" target="_blank" rel="noopener noreferrer" class="nav-link github-pill" id="navGithub">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -66,14 +66,16 @@
           <span>BUILD TERBARU • RILIS MULTIPLATFORM</span>
         </div>
 
-        <h1 class="hero-title">
-          <span class="title-sub">TAKDIR ELEMEN DAN JIWA</span>
-          <span class="title-main">SOUL ESSENCE</span>
-        </h1>
+        <div class="hero-logo-box">
+          <div class="logo-stack">
+            <img src="assets/logo-aura.png" alt="" class="logo-aura" draggable="false" aria-hidden="true">
+            <img src="assets/logo-kamu.png" alt="Soul Essence" class="img-logo" draggable="false">
+          </div>
+        </div>
 
         <p class="hero-description">
           Aksi roguelike 2D berkecepatan tinggi dengan mesin Vanilla murni 60 FPS tanpa beban dependency.
-          Bertahan dari serbuan monster bayangan, racik sinergi artefak legendaris, dan kuasai elemen jiwa.
+          Bertahan dari serbuan monster bayangan, racik sinergi 8 atribut elemen, dan kuasai kombinasi reaksi jiwa.
         </p>
 
         <div class="release-status-box" id="releaseStatusBox">
@@ -91,8 +93,8 @@
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-number">3 ELEMEN</span>
-            <span class="stat-label">Es • Api • Petir</span>
+            <span class="stat-number">8 ELEMEN</span>
+            <span class="stat-label">Sistem Reaksi Sinergi</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
@@ -240,67 +242,69 @@
       </div>
     </section>
 
-    <section id="characters" class="characters-section">
+    <section id="reactions" class="reactions-section">
       <div class="section-header">
-        <h2 class="section-title">PENJAGA ELEMEN</h2>
-        <p class="section-subtitle">Tiga pendekar legendaris dengan gaya bertarung dan kedahsyatan elemen yang unik</p>
+        <h2 class="section-title">DIAGRAM REAKSI ELEMEN</h2>
+        <p class="section-subtitle">Padukan 2 atribut elemen berbeda pada musuh untuk memicu ledakan reaksi dahsyat di medan tempur</p>
       </div>
 
-      <div class="characters-grid">
-        <div class="char-card char-ice">
-          <div class="char-aura"></div>
-          <div class="char-tag">ELEMEN ES</div>
-          <h3 class="char-name">Kenzro</h3>
-          <p class="char-role">Pemanah Jarak Jauh</p>
-          <p class="char-desc">Mengendalikan badai es dari kejauhan. Menembakkan panah es yang menembus barisan monster dan membekukan musuh lewat ultimate Frozfall.</p>
-          <div class="char-stats">
-            <div class="stat-bar-group">
-              <span class="bar-title">Jarak Serang</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div>
-            </div>
-            <div class="stat-bar-group">
-              <span class="bar-title">Kelincahan</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 85%;"></div></div>
-            </div>
-          </div>
+      <div class="chart-wrapper">
+        <div class="chart-container">
+          <svg id="reactionChartSvg" viewBox="0 0 600 600" class="reaction-svg">
+            <defs>
+              <filter id="svgGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+
+            <circle cx="300" cy="300" r="230" class="chart-orbit-ring"/>
+            <circle cx="300" cy="300" r="145" class="chart-orbit-inner"/>
+
+            <g id="chartLinesGroup" class="chart-lines"></g>
+            <g id="chartLabelsGroup" class="chart-labels"></g>
+          </svg>
+
+          <div id="chartNodesContainer" class="chart-nodes"></div>
         </div>
 
-        <div class="char-card char-fire">
-          <div class="char-aura"></div>
-          <div class="char-tag">ELEMEN API</div>
-          <h3 class="char-name">Vender</h3>
-          <p class="char-role">Penebas Sabit Neraka</p>
-          <p class="char-desc">Ahli pertarungan jarak dekat dengan sabit api menyala. Membakar gerombolan musuh di sekitarnya dan memanen jiwa dengan daya tahan tinggi.</p>
-          <div class="char-stats">
-            <div class="stat-bar-group">
-              <span class="bar-title">Area Damage</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 90%;"></div></div>
+        <div class="reaction-inspector" id="reactionInspector">
+          <div class="inspector-badge">DETAIL REAKSI AKTIF</div>
+          <div class="inspector-header">
+            <div class="inspector-icons" id="inspectorIcons">
+              <img src="assets/element-api.svg" alt="Api" class="elem-mini" id="inspIcon1">
+              <span class="plus-sign">+</span>
+              <img src="assets/element-es.svg" alt="Es" class="elem-mini" id="inspIcon2">
             </div>
-            <div class="stat-bar-group">
-              <span class="bar-title">Daya Tahan HP</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 80%;"></div></div>
+            <div class="inspector-names">
+              <h3 class="inspector-title" id="inspectorTitle">MELT</h3>
+              <span class="inspector-formula" id="inspectorFormula">Api + Es</span>
             </div>
           </div>
-        </div>
 
-        <div class="char-card char-thunder">
-          <div class="char-aura"></div>
-          <div class="char-tag">ELEMEN PETIR</div>
-          <h3 class="char-name">Voiz</h3>
-          <p class="char-role">Penyihir Kilat</p>
-          <p class="char-desc">Menyalurkan tegangan tinggi petir yang merambat antar target. Menghempaskan serangan badai listrik beruntun dengan kecepatan tinggi.</p>
-          <div class="char-stats">
-            <div class="stat-bar-group">
-              <span class="bar-title">Kecepatan Serang</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 90%;"></div></div>
+          <div class="inspector-body">
+            <p class="inspector-desc" id="inspectorDesc">Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.</p>
+            <div class="inspector-tip" id="inspectorTip">
+              <strong>Taktik:</strong> Gunakan Kenzro untuk membekukan/mendinginkan musuh terlebih dahulu, lalu tebas dengan sabit api Vender untuk burst damage masif.
             </div>
-            <div class="stat-bar-group">
-              <span class="bar-title">Chain Damage</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
-            </div>
+          </div>
+
+          <div class="inspector-instruction">
+            <span>Klik atau arahkan kursor ke ikon elemen di diagram untuk melihat reaksi lainnya.</span>
           </div>
         </div>
       </div>
+
+      <div class="reaction-filter-bar">
+        <button class="btn-filter active" data-filter="all">Semua Reaksi</button>
+        <button class="btn-filter" data-filter="energi">Reaksi Klasik</button>
+        <button class="btn-filter" data-filter="angin">Pusaran Angin (Swirl)</button>
+        <button class="btn-filter" data-filter="tanah">Tanah (Crystallize & Crush)</button>
+        <button class="btn-filter" data-filter="nihil">Nihil (Corrosion & Enchant)</button>
+        <button class="btn-filter" data-filter="fisik">Fisik (Impak Kinetik)</button>
+      </div>
+
+      <div class="reactions-grid" id="reactionsGrid"></div>
     </section>
 
     <section id="guide" class="guide-section">
