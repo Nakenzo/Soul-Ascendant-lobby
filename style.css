@@ -662,110 +662,134 @@ main {
 .reaction-svg {
   width: 100%;
   height: auto;
-  aspect-ratio: 800 / 750;
+  aspect-ratio: 1 / 1;
   overflow: visible;
   user-select: none;
 }
 
-.diagram-bg-circle {
+.diagram-orbit-outer {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.05);
-  stroke-width: 1.2;
-}
-
-.diagram-dash-circle {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.08);
+  stroke: rgba(255, 255, 255, 0.06);
   stroke-width: 1.5;
   stroke-dasharray: 6 6;
 }
 
-.diagram-diamond-grid {
+.diagram-orbit-inner {
   fill: none;
   stroke: rgba(255, 255, 255, 0.04);
   stroke-width: 1;
 }
 
-.zone-polygon {
+.cable-conduit {
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: opacity 0.25s ease, filter 0.25s ease;
 }
 
-.zone-polygon:hover, .zone-polygon.active {
-  fill-opacity: 0.22;
-  filter: drop-shadow(0 0 12px currentColor);
-}
-
-.zone-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  dominant-baseline: middle;
-  pointer-events: none;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
-}
-
-.arrow-ribbon {
+.cable-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 24;
+  stroke-linecap: round;
   cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+  pointer-events: stroke;
 }
 
-.arrow-polygon {
-  stroke-width: 1.6;
+.cable-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 2.4;
   transition: all 0.25s ease;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+  pointer-events: none;
 }
 
-.arrow-text {
+.cable-core {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.65;
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.cable-badge {
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+
+.cable-badge-pill {
+  fill: #070a10;
+  stroke-width: 1.5;
+  rx: 8;
+  transition: all 0.25s ease;
+}
+
+.cable-badge-text {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.07em;
-  fill: #ffffff;
+  letter-spacing: 0.05em;
+  fill: #f8fafc;
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
 }
 
-.arrow-ribbon:hover, .arrow-ribbon.active {
-  transform: scale(1.02);
+.cable-conduit:hover .cable-line,
+.cable-conduit.active .cable-line {
+  stroke-width: 4.2;
+  filter: drop-shadow(0 0 10px currentColor);
 }
 
-.arrow-ribbon:hover .arrow-polygon, .arrow-ribbon.active .arrow-polygon {
-  stroke-width: 2.8;
-  filter: drop-shadow(0 0 12px currentColor);
+.cable-conduit:hover .cable-badge-pill,
+.cable-conduit.active .cable-badge-pill {
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
-.arrow-ribbon.selected .arrow-polygon {
-  stroke-width: 3.2;
-  stroke: #ffffff;
-  filter: drop-shadow(0 0 16px var(--color-cyan));
+.cable-conduit.selected .cable-line {
+  stroke-width: 5;
+  stroke: #ffffff !important;
+  filter: drop-shadow(0 0 14px var(--color-cyan));
 }
 
-.arrow-ribbon.dimmed {
-  opacity: 0.16;
-  filter: grayscale(60%);
+.cable-conduit.selected .cable-badge-pill {
+  stroke: var(--color-cyan) !important;
+  fill: rgba(15, 23, 42, 0.95);
+  filter: drop-shadow(0 0 10px var(--color-cyan));
+}
+
+.cable-conduit.dimmed {
+  opacity: 0.12;
+  filter: grayscale(80%);
 }
 
 .elem-crest {
   cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.crest-hit {
+  fill: transparent;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 .crest-halo {
-  transition: all 0.3s ease;
+  transition: stroke-width 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+  pointer-events: none;
 }
 
-.crest-diamond {
+.crest-gem {
   fill: #090e17;
-  transition: all 0.3s ease;
+  transition: stroke-width 0.25s ease, filter 0.25s ease;
+  pointer-events: none;
 }
 
 .crest-label {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   fill: #cbd5e1;
@@ -775,23 +799,21 @@ main {
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
 }
 
-.elem-crest:hover, .elem-crest.active {
-  transform: scale(1.12);
-}
-
-.elem-crest:hover .crest-halo, .elem-crest.active .crest-halo {
-  stroke-width: 3;
-  opacity: 0.95;
+.elem-crest:hover .crest-halo,
+.elem-crest.active .crest-halo {
+  stroke-width: 3.5;
+  opacity: 1;
   filter: drop-shadow(0 0 12px currentColor);
 }
 
-.elem-crest:hover .crest-diamond, .elem-crest.active .crest-diamond {
-  stroke-width: 2.8;
+.elem-crest:hover .crest-gem,
+.elem-crest.active .crest-gem {
+  stroke-width: 3;
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .elem-crest.dimmed {
   opacity: 0.25;
-  transform: scale(0.92);
 }
 
 .reaction-inspector {
