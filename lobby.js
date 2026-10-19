@@ -207,14 +207,160 @@
 
 (function() {
   const ELEMENTS = [
-    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", angle: 270 },
-    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", angle: 315 },
-    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", angle: 0 },
-    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", angle: 45 },
-    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", angle: 90 },
-    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", angle: 135 },
-    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", angle: 180 },
-    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", angle: 225 }
+    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 400, y: 75, labelY: -48 },
+    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 400, y: 360, labelY: 48 },
+    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 400, y: 645, labelY: 48 },
+    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 150, y: 360, labelY: 48 },
+    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 650, y: 360, labelY: 48 },
+    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 135, y: 115, labelY: 48 },
+    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 665, y: 115, labelY: 48 },
+    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 145, y: 590, labelY: 48 }
+  ];
+
+  const CHART_RIBBONS = [
+    {
+      id: "combustion",
+      e1: "api",
+      e2: "nature",
+      x1: 400,
+      y1: 360,
+      x2: 400,
+      y2: 75,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "COMBUSTION"
+    },
+    {
+      id: "melt",
+      e1: "api",
+      e2: "es",
+      x1: 400,
+      y1: 360,
+      x2: 400,
+      y2: 645,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "MELT (x2.0)"
+    },
+    {
+      id: "overload",
+      e1: "petir",
+      e2: "api",
+      x1: 150,
+      y1: 360,
+      x2: 400,
+      y2: 360,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "OVERLOAD"
+    },
+    {
+      id: "flame_corrosion",
+      e1: "api",
+      e2: "nihil",
+      x1: 400,
+      y1: 360,
+      x2: 650,
+      y2: 360,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "FLAME CORROSION"
+    },
+    {
+      id: "catalyze",
+      e1: "petir",
+      e2: "nature",
+      x1: 150,
+      y1: 360,
+      x2: 400,
+      y2: 75,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "CATALYZE"
+    },
+    {
+      id: "superconduct",
+      e1: "petir",
+      e2: "es",
+      x1: 150,
+      y1: 360,
+      x2: 400,
+      y2: 645,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "SUPERCONDUCT"
+    },
+    {
+      id: "plague_corrosion",
+      e1: "nature",
+      e2: "nihil",
+      x1: 400,
+      y1: 75,
+      x2: 650,
+      y2: 360,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "PLAGUE CORROSION"
+    },
+    {
+      id: "frost_corrosion",
+      e1: "nihil",
+      e2: "es",
+      x1: 650,
+      y1: 360,
+      x2: 400,
+      y2: 645,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "FROST CORROSION"
+    },
+    {
+      id: "shatter",
+      e1: "fisik",
+      e2: "es",
+      x1: 145,
+      y1: 590,
+      x2: 400,
+      y2: 645,
+      r1: 46,
+      r2: 46,
+      double: true,
+      label: "SHATTER (x2.5)"
+    },
+    {
+      id: "swirl_api",
+      e1: "angin",
+      e2: "api",
+      x1: 135,
+      y1: 115,
+      x2: 275,
+      y2: 235,
+      r1: 46,
+      r2: 10,
+      double: false,
+      label: "SWIRL (4 Elemen)"
+    },
+    {
+      id: "cryst_api",
+      e1: "tanah",
+      e2: "api",
+      x1: 665,
+      y1: 115,
+      x2: 525,
+      y2: 235,
+      r1: 46,
+      r2: 10,
+      double: false,
+      label: "CRYSTALLIZE"
+    }
   ];
 
   const REACTIONS = [
@@ -255,6 +401,15 @@
       tip: "Taktik: Sangat krusial digunakan sebelum melancarkan rentetan damage fisik masif."
     },
     {
+      id: "catalyze",
+      e1: "petir",
+      e2: "nature",
+      name: "CATALYZE",
+      cat: "energi",
+      desc: "Medan bio-listrik yang memicu sengatan listrik rantai tambahan pada setiap serangan berikutnya.",
+      tip: "Taktik: Cocok untuk karakter dengan attack speed tinggi agar memicu proc listrik beruntun."
+    },
+    {
       id: "frostbite_spore",
       e1: "es",
       e2: "nature",
@@ -264,15 +419,86 @@
       tip: "Taktik: Hentikan laju monster cepat agar posisinya terkunci di arena."
     },
     {
-      id: "catalyze",
-      e1: "petir",
-      e2: "nature",
-      name: "CATALYZE",
-      cat: "energi",
-      desc: "Medan bio-listrik yang memicu sengatan listrik rantai tambahan pada setiap serangan berikutnya.",
-      tip: "Taktik: Cocok untuk karakter dengan attack speed tinggi agar memicu proc listrik beruntun."
+      id: "flame_corrosion",
+      e1: "nihil",
+      e2: "api",
+      name: "FLAME CORROSION",
+      cat: "nihil",
+      desc: "Korosi api hitam yang menggerogoti HP musuh dan menular ke monster lain yang bersentuhan.",
+      tip: "Taktik: Api hitam akan terus menyebar selama musuh bergerombol rapat."
     },
-
+    {
+      id: "frost_corrosion",
+      e1: "nihil",
+      e2: "es",
+      name: "FROST CORROSION",
+      cat: "nihil",
+      desc: "Korosi dingin ekstrem yang membekukan musuh seketika selama 1.5 detik dan mengikis movement speed.",
+      tip: "Taktik: Kunci musuh berbahaya tanpa memberi jeda serangan balasan."
+    },
+    {
+      id: "plague_corrosion",
+      e1: "nihil",
+      e2: "nature",
+      name: "PLAGUE CORROSION",
+      cat: "nihil",
+      desc: "Korosi asam hayati yang merontokkan 30% armor musuh dan menguras HP secara bertahap.",
+      tip: "Taktik: Sangat efektif mengikis musuh dengan darah tebal."
+    },
+    {
+      id: "volt_corrosion",
+      e1: "nihil",
+      e2: "petir",
+      name: "VOLT CORROSION",
+      cat: "nihil",
+      desc: "Korosi statis yang memancarkan sengatan mini setiap detik, menginterupsi animasi serangan musuh.",
+      tip: "Taktik: Gagalkan jurus bos yang memiliki waktu ancang-ancang panjang."
+    },
+    {
+      id: "enchant_corrosion",
+      e1: "nihil",
+      e2: "fisik",
+      name: "ENCHANT CORROSION",
+      cat: "nihil",
+      desc: "Skill fisik memicu pasif buff pelapisan korosi selama 5 detik untuk seluruh serangan karakter.",
+      tip: "Taktik: Aktifkan skill fisik pada musuh void, lalu serang bebas dengan base attack."
+    },
+    {
+      id: "shatter",
+      e1: "fisik",
+      e2: "es",
+      name: "SHATTER",
+      cat: "fisik",
+      desc: "Memecahkan kristal es musuh dengan damage kritis instan x2.5 lipat dan menyebarkan serpihan es.",
+      tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
+    },
+    {
+      id: "discharge",
+      e1: "fisik",
+      e2: "petir",
+      name: "DISCHARGE",
+      cat: "fisik",
+      desc: "Pelepasan arus mendadak yang memicu micro-stun 0.4 detik dan membatalkan serangan musuh.",
+      tip: "Taktik: Gunakan untuk menghentikan serangan mendadak monster agresif."
+    },
+    {
+      id: "spark",
+      e1: "fisik",
+      e2: "api",
+      name: "SPARK",
+      cat: "fisik",
+      desc: "Letupan percikan gesekan bara (+25% Crit Damage + Micro Knockback mundur).",
+      tip: "Taktik: Beri jarak aman bagi pemain jarak dekat saat menyerang musuh membara."
+    },
+    {
+      id: "splinter",
+      e1: "fisik",
+      e2: "nature",
+      name: "SPLINTER",
+      cat: "fisik",
+      desc: "Pecahan duri tajam berhamburan ke segala arah dan menimbulkan pendarahan ringan.",
+      tip: "Taktik: Mengubah serangan fisik satu target menjadi kerusakan area mini."
+    },
     {
       id: "swirl_api",
       e1: "angin",
@@ -310,25 +536,6 @@
       tip: "Taktik: Mempersiapkan banyak musuh sekaligus untuk kombo reaksi lanjutan."
     },
     {
-      id: "swirl_tanah",
-      e1: "angin",
-      e2: "tanah",
-      name: "SAND SWIRL",
-      cat: "angin",
-      desc: "Badai debu pasir yang mengaburkan pandangan musuh dan merusak konsentrasi serangannya.",
-      tip: "Taktik: Mengurangi akurasi serangan proyektil monster penembak jarak jauh."
-    },
-    {
-      id: "void_swirl",
-      e1: "angin",
-      e2: "nihil",
-      name: "VOID SWIRL",
-      cat: "angin",
-      desc: "Pusaran gravitasi kehampaan yang menarik musuh ke pusat pusaran sambil memberi efek korosi.",
-      tip: "Taktik: Menyatukan musuh di satu titik untuk dieksekusi dengan jurus Ultimate."
-    },
-
-    {
       id: "cryst_api",
       e1: "tanah",
       e2: "api",
@@ -347,30 +554,12 @@
       tip: "Taktik: Menangkal efek beku dari serangan bos berelemen es."
     },
     {
-      id: "cryst_petir",
-      e1: "tanah",
-      e2: "petir",
-      name: "VOLT CRYSTALLIZE",
-      cat: "tanah",
-      desc: "Menjatuhkan kristal perisai petir; memberikan perisai penyerap damage listrik.",
-      tip: "Taktik: Melindungi diri dari sengatan statis di lantai pertarungan."
-    },
-    {
-      id: "cryst_nature",
-      e1: "tanah",
-      e2: "nature",
-      name: "BIO CRYSTALLIZE",
-      cat: "tanah",
-      desc: "Menjatuhkan kristal perisai alam; memberikan regenerasi shield ringan.",
-      tip: "Taktik: Memperpanjang daya tahan hidup karakter saat menghadapi wave panjang."
-    },
-    {
       id: "crush",
       e1: "tanah",
       e2: "fisik",
       name: "CRUSH",
       cat: "tanah",
-      desc: "Hantaman remuk yang meremukkan ketahanan monster tipe tank/armor tebal dan memberi efek stun singkat.",
+      desc: "Hantaman remuk yang meremukkan ketahanan monster armor tebal dan memberi efek stun singkat.",
       tip: "Taktik: Hancurkan pelindung musuh yang memiliki bar armor keras."
     },
     {
@@ -381,99 +570,10 @@
       cat: "tanah",
       desc: "Pengikisan kepadatan tanah yang mengabaikan 50% defense musuh terhadap serangan berikutnya.",
       tip: "Taktik: Membuat musuh dengan pertahanan tinggi menjadi sangat rentan."
-    },
-
-    {
-      id: "frost_corrosion",
-      e1: "nihil",
-      e2: "es",
-      name: "FROST CORROSION",
-      cat: "nihil",
-      desc: "Korosi dingin ekstrem yang membekukan musuh seketika selama 1.5 detik dan mengikis movement speed.",
-      tip: "Taktik: Kunci musuh berbahaya tanpa memberi jeda serangan balasan."
-    },
-    {
-      id: "flame_corrosion",
-      e1: "nihil",
-      e2: "api",
-      name: "FLAME CORROSION",
-      cat: "nihil",
-      desc: "Korosi api hitam yang menggerogoti HP musuh dan menular ke monster lain yang bersentuhan.",
-      tip: "Taktik: Api hitam akan terus menyebar selama musuh bergerombol rapat."
-    },
-    {
-      id: "volt_corrosion",
-      e1: "nihil",
-      e2: "petir",
-      name: "VOLT CORROSION",
-      cat: "nihil",
-      desc: "Korosi statis yang memancarkan sengatan mini setiap detik, menginterupsi animasi serangan musuh.",
-      tip: "Taktik: Gagalkan jurus bos yang memiliki waktu ancang-ancang panjang."
-    },
-    {
-      id: "plague_corrosion",
-      e1: "nihil",
-      e2: "nature",
-      name: "PLAGUE CORROSION",
-      cat: "nihil",
-      desc: "Korosi asam hayati yang merontokkan 30% armor musuh dan menguras HP secara bertahap.",
-      tip: "Taktik: Sangat efektif mengikis musuh dengan darah tebal."
-    },
-    {
-      id: "enchant_corrosion",
-      e1: "nihil",
-      e2: "fisik",
-      name: "ENCHANT CORROSION",
-      cat: "nihil",
-      desc: "Skill fisik memicu pasif buff pelapisan korosi selama 5 detik untuk seluruh serangan karakter.",
-      tip: "Taktik: Aktifkan skill fisik pada musuh void, lalu serang bebas dengan base attack untuk menularkan korosi."
-    },
-
-    {
-      id: "shatter",
-      e1: "fisik",
-      e2: "es",
-      name: "SHATTER",
-      cat: "fisik",
-      desc: "Memecahkan kristal es musuh dengan damage kritis instan x2.5 lipat dan menyebarkan serpihan es.",
-      tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
-    },
-    {
-      id: "spark",
-      e1: "fisik",
-      e2: "api",
-      name: "SPARK",
-      cat: "fisik",
-      desc: "Letupan percikan gesekan bara (+25% Crit Damage + Micro Knockback mundur).",
-      tip: "Taktik: Beri jarak aman bagi pemain jarak dekat saat menyerang musuh membara."
-    },
-    {
-      id: "discharge",
-      e1: "fisik",
-      e2: "petir",
-      name: "DISCHARGE",
-      cat: "fisik",
-      desc: "Pelepasan arus mendadak yang memicu micro-stun 0.4 detik dan membatalkan serangan musuh.",
-      tip: "Taktik: Gunakan untuk menghentikan serangan mendadak monster agresif."
-    },
-    {
-      id: "splinter",
-      e1: "fisik",
-      e2: "nature",
-      name: "SPLINTER",
-      cat: "fisik",
-      desc: "Pecahan duri tajam berhamburan ke segala arah dan menimbulkan pendarahan ringan.",
-      tip: "Taktik: Mengubah serangan fisik satu target menjadi kerusakan area mini."
     }
   ];
 
   const svg = document.getElementById("reactionChartSvg");
-  const linesGroup = document.getElementById("chartLinesGroup");
-  const badgesGroup = document.getElementById("chartBadgesGroup");
-  const nodesGroup = document.getElementById("chartNodesGroup");
-  const pickerBar = document.getElementById("elementPickerBar");
-  const centerFormulaText = document.getElementById("centerFormulaText");
-  const centerActionText = document.getElementById("centerActionText");
   const grid = document.getElementById("reactionsGrid");
 
   const inspTitle = document.getElementById("inspectorTitle");
@@ -484,9 +584,6 @@
   const inspIcon2 = document.getElementById("inspIcon2");
   const inspCatBadge = document.getElementById("inspectorCatBadge");
 
-  const CENTER = 300;
-  const RADIUS = 210;
-
   let selectedElementId = "api";
   let selectedReactionId = "melt";
   let activeFilter = "all";
@@ -495,225 +592,368 @@
     return ELEMENTS.find(function(e) { return e.id === id; });
   }
 
-  function getElementCoords(elem) {
-    const rad = (elem.angle * Math.PI) / 180;
-    return {
-      x: CENTER + RADIUS * Math.cos(rad),
-      y: CENTER + RADIUS * Math.sin(rad)
-    };
+  function getReactionById(id) {
+    return REACTIONS.find(function(r) { return r.id === id; });
   }
 
-  function renderPickerBar() {
-    if (!pickerBar) return;
-    pickerBar.innerHTML = "";
+  function makeRibbonPath(x1, y1, x2, y2, r1, r2, width, headLen, headWidth, doubleHeaded) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist <= r1 + r2) return null;
 
-    ELEMENTS.forEach(function(el) {
-      const btn = document.createElement("button");
-      btn.className = "picker-btn" + (selectedElementId === el.id ? " active" : "");
-      btn.setAttribute("type", "button");
-      btn.setAttribute("data-id", el.id);
-      btn.style.setProperty("--btn-color", el.color);
-      btn.style.setProperty("--btn-glow", el.color + "66");
+    const ux = dx / dist;
+    const uy = dy / dist;
+    const px = -uy;
+    const py = ux;
 
-      btn.innerHTML =
-        '<img src="' + el.icon + '" alt="' + el.name + '" class="picker-icon">' +
-        '<span>' + el.name + '</span>';
+    const sx = x1 + ux * r1;
+    const sy = y1 + uy * r1;
+    const ex = x2 - ux * r2;
+    const ey = y2 - uy * r2;
 
-      btn.addEventListener("click", function() {
-        selectElement(el.id);
+    const halfW = width / 2;
+    const halfHw = headWidth / 2;
+
+    if (doubleHeaded) {
+      const p1x = sx;
+      const p1y = sy;
+      const p2x = sx + ux * headLen + px * halfHw;
+      const p2y = sy + uy * headLen + py * halfHw;
+      const p3x = sx + ux * headLen + px * halfW;
+      const p3y = sy + uy * headLen + py * halfW;
+
+      const p4x = ex - ux * headLen + px * halfW;
+      const p4y = ey - uy * headLen + py * halfW;
+      const p5x = ex - ux * headLen + px * halfHw;
+      const p5y = ey - uy * headLen + py * halfHw;
+      const p6x = ex;
+      const p6y = ey;
+
+      const p7x = ex - ux * headLen - px * halfHw;
+      const p7y = ey - uy * headLen - py * halfHw;
+      const p8x = ex - ux * headLen - px * halfW;
+      const p8y = ey - uy * headLen - py * halfW;
+
+      const p9x = sx + ux * headLen - px * halfW;
+      const p9y = sy + uy * headLen - py * halfW;
+      const p10x = sx + ux * headLen - px * halfHw;
+      const p10y = sy + uy * headLen - py * halfHw;
+
+      return "M " + p1x.toFixed(1) + " " + p1y.toFixed(1) +
+             " L " + p2x.toFixed(1) + " " + p2y.toFixed(1) +
+             " L " + p3x.toFixed(1) + " " + p3y.toFixed(1) +
+             " L " + p4x.toFixed(1) + " " + p4y.toFixed(1) +
+             " L " + p5x.toFixed(1) + " " + p5y.toFixed(1) +
+             " L " + p6x.toFixed(1) + " " + p6y.toFixed(1) +
+             " L " + p7x.toFixed(1) + " " + p7y.toFixed(1) +
+             " L " + p8x.toFixed(1) + " " + p8y.toFixed(1) +
+             " L " + p9x.toFixed(1) + " " + p9y.toFixed(1) +
+             " L " + p10x.toFixed(1) + " " + p10y.toFixed(1) + " Z";
+    } else {
+      const p1x = sx + px * halfW;
+      const p1y = sy + py * halfW;
+      const p2x = ex - ux * headLen + px * halfW;
+      const p2y = ey - uy * headLen + py * halfW;
+      const p3x = ex - ux * headLen + px * halfHw;
+      const p3y = ey - uy * headLen + py * halfHw;
+      const p4x = ex;
+      const p4y = ey;
+      const p5x = ex - ux * headLen - px * halfHw;
+      const p5y = ey - uy * headLen - py * halfHw;
+      const p6x = ex - ux * headLen - px * halfW;
+      const p6y = ey - uy * headLen - py * halfW;
+      const p7x = sx - px * halfW;
+      const p7y = sy - py * halfW;
+
+      return "M " + p1x.toFixed(1) + " " + p1y.toFixed(1) +
+             " L " + p2x.toFixed(1) + " " + p2y.toFixed(1) +
+             " L " + p3x.toFixed(1) + " " + p3y.toFixed(1) +
+             " L " + p4x.toFixed(1) + " " + p4y.toFixed(1) +
+             " L " + p5x.toFixed(1) + " " + p5y.toFixed(1) +
+             " L " + p6x.toFixed(1) + " " + p6y.toFixed(1) +
+             " L " + p7x.toFixed(1) + " " + p7y.toFixed(1) + " Z";
+    }
+  }
+
+  function renderInfographicChart() {
+    if (!svg) return;
+    svg.innerHTML = "";
+
+    const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+
+    CHART_RIBBONS.forEach(function(r) {
+      const e1 = getElementById(r.e1);
+      const e2 = getElementById(r.e2);
+      if (!e1 || !e2) return;
+
+      const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+      grad.setAttribute("id", "grad-" + r.id);
+      grad.setAttribute("gradientUnits", "userSpaceOnUse");
+      grad.setAttribute("x1", r.x1.toString());
+      grad.setAttribute("y1", r.y1.toString());
+      grad.setAttribute("x2", r.x2.toString());
+      grad.setAttribute("y2", r.y2.toString());
+
+      const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+      stop1.setAttribute("offset", "0%");
+      stop1.setAttribute("stop-color", e1.color);
+      stop1.setAttribute("stop-opacity", "0.92");
+
+      const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+      stop2.setAttribute("offset", "100%");
+      stop2.setAttribute("stop-color", e2.color);
+      stop2.setAttribute("stop-opacity", "0.92");
+
+      grad.appendChild(stop1);
+      grad.appendChild(stop2);
+      defs.appendChild(grad);
+    });
+
+    svg.appendChild(defs);
+
+    const bgGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    bgGroup.setAttribute("class", "diagram-bg-group");
+
+    const diamondGrid = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    diamondGrid.setAttribute("points", "400,75 650,360 400,645 150,360");
+    diamondGrid.setAttribute("class", "diagram-diamond-grid");
+    bgGroup.appendChild(diamondGrid);
+
+    const dashCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    dashCircle.setAttribute("cx", "400");
+    dashCircle.setAttribute("cy", "360");
+    dashCircle.setAttribute("r", "160");
+    dashCircle.setAttribute("class", "diagram-dash-circle");
+    bgGroup.appendChild(dashCircle);
+
+    const bgCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    bgCircle.setAttribute("cx", "400");
+    bgCircle.setAttribute("cy", "360");
+    bgCircle.setAttribute("r", "280");
+    bgCircle.setAttribute("class", "diagram-bg-circle");
+    bgGroup.appendChild(bgCircle);
+
+    const swirlZone = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    swirlZone.setAttribute("points", "50,40 240,40 280,210 180,240 50,180");
+    swirlZone.setAttribute("class", "zone-polygon");
+    swirlZone.setAttribute("fill", "#34d399");
+    swirlZone.setAttribute("fill-opacity", "0.10");
+    swirlZone.setAttribute("stroke", "#34d399");
+    swirlZone.setAttribute("stroke-width", "1.5");
+    swirlZone.setAttribute("stroke-dasharray", "5 5");
+    swirlZone.setAttribute("data-element", "angin");
+    swirlZone.addEventListener("click", function() {
+      selectElement("angin");
+    });
+    bgGroup.appendChild(swirlZone);
+
+    const swirlLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    swirlLabel.setAttribute("x", "135");
+    swirlLabel.setAttribute("y", "55");
+    swirlLabel.setAttribute("class", "zone-label");
+    swirlLabel.setAttribute("fill", "#34d399");
+    swirlLabel.setAttribute("text-anchor", "middle");
+    swirlLabel.textContent = "PUSARAN (SWIRL)";
+    bgGroup.appendChild(swirlLabel);
+
+    const crystZone = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    crystZone.setAttribute("points", "560,40 750,40 750,180 620,240 520,210");
+    crystZone.setAttribute("class", "zone-polygon");
+    crystZone.setAttribute("fill", "#d97706");
+    crystZone.setAttribute("fill-opacity", "0.10");
+    crystZone.setAttribute("stroke", "#d97706");
+    crystZone.setAttribute("stroke-width", "1.5");
+    crystZone.setAttribute("stroke-dasharray", "5 5");
+    crystZone.setAttribute("data-element", "tanah");
+    crystZone.addEventListener("click", function() {
+      selectElement("tanah");
+    });
+    bgGroup.appendChild(crystZone);
+
+    const crystLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    crystLabel.setAttribute("x", "655");
+    crystLabel.setAttribute("y", "55");
+    crystLabel.setAttribute("class", "zone-label");
+    crystLabel.setAttribute("fill", "#d97706");
+    crystLabel.setAttribute("text-anchor", "middle");
+    crystLabel.textContent = "KRISTAL (CRYSTALLIZE)";
+    bgGroup.appendChild(crystLabel);
+
+    const fisikZone = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    fisikZone.setAttribute("points", "45,515 210,535 210,680 65,680");
+    fisikZone.setAttribute("class", "zone-polygon");
+    fisikZone.setAttribute("fill", "#cbd5e1");
+    fisikZone.setAttribute("fill-opacity", "0.08");
+    fisikZone.setAttribute("stroke", "#cbd5e1");
+    fisikZone.setAttribute("stroke-width", "1.2");
+    fisikZone.setAttribute("stroke-dasharray", "4 4");
+    fisikZone.setAttribute("data-element", "fisik");
+    fisikZone.addEventListener("click", function() {
+      selectElement("fisik");
+    });
+    bgGroup.appendChild(fisikZone);
+
+    const fisikLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    fisikLabel.setAttribute("x", "125");
+    fisikLabel.setAttribute("y", "532");
+    fisikLabel.setAttribute("class", "zone-label");
+    fisikLabel.setAttribute("fill", "#cbd5e1");
+    fisikLabel.setAttribute("text-anchor", "middle");
+    fisikLabel.textContent = "IMPAK KINETIK";
+    bgGroup.appendChild(fisikLabel);
+
+    svg.appendChild(bgGroup);
+
+    const ribbonsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    ribbonsGroup.setAttribute("class", "diagram-ribbons-group");
+
+    CHART_RIBBONS.forEach(function(r) {
+      const e1 = getElementById(r.e1);
+      const e2 = getElementById(r.e2);
+      if (!e1 || !e2) return;
+
+      const pathData = makeRibbonPath(r.x1, r.y1, r.x2, r.y2, r.r1, r.r2, 24, 14, 38, r.double);
+      if (!pathData) return;
+
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "arrow-ribbon");
+      g.setAttribute("data-react-id", r.id);
+      g.setAttribute("data-e1", r.e1);
+      g.setAttribute("data-e2", r.e2);
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      path.setAttribute("class", "arrow-polygon");
+      path.setAttribute("fill", "url(#grad-" + r.id + ")");
+      path.setAttribute("stroke", e1.color);
+
+      const midX = (r.x1 + r.x2) / 2;
+      const midY = (r.y1 + r.y2) / 2;
+      const dx = r.x2 - r.x1;
+      const dy = r.y2 - r.y1;
+      let angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+      if (angle > 90) angle -= 180;
+      if (angle < -90) angle += 180;
+
+      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text.setAttribute("class", "arrow-text");
+      text.setAttribute("transform", "translate(" + midX.toFixed(1) + "," + midY.toFixed(1) + ") rotate(" + angle.toFixed(1) + ")");
+      text.textContent = r.label;
+
+      g.appendChild(path);
+      g.appendChild(text);
+
+      g.addEventListener("click", function() {
+        const found = getReactionById(r.id);
+        if (found) {
+          selectReaction(found);
+        }
       });
 
-      pickerBar.appendChild(btn);
+      ribbonsGroup.appendChild(g);
     });
-  }
 
-  function renderNodes() {
-    if (!nodesGroup) return;
-    nodesGroup.innerHTML = "";
+    svg.appendChild(ribbonsGroup);
+
+    const crestsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    crestsGroup.setAttribute("class", "diagram-crests-group");
 
     ELEMENTS.forEach(function(el) {
-      const coords = getElementCoords(el);
       const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("class", "chart-node" + (selectedElementId === el.id ? " active" : ""));
+      g.setAttribute("class", "elem-crest" + (selectedElementId === el.id ? " active" : ""));
       g.setAttribute("data-id", el.id);
-      g.setAttribute("transform", "translate(" + coords.x.toFixed(1) + "," + coords.y.toFixed(1) + ")");
+      g.setAttribute("transform", "translate(" + el.x.toFixed(1) + "," + el.y.toFixed(1) + ")");
 
       const halo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      halo.setAttribute("class", "node-halo");
-      halo.setAttribute("r", "32");
+      halo.setAttribute("class", "crest-halo");
+      halo.setAttribute("r", "38");
       halo.setAttribute("fill", "none");
       halo.setAttribute("stroke", el.color);
-      halo.setAttribute("stroke-width", "2");
-      halo.setAttribute("opacity", selectedElementId === el.id ? "0.85" : "0.35");
+      halo.setAttribute("stroke-width", selectedElementId === el.id ? "3" : "1.8");
+      halo.setAttribute("stroke-dasharray", "4 4");
+      halo.setAttribute("opacity", selectedElementId === el.id ? "0.95" : "0.4");
 
-      const bg = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      bg.setAttribute("class", "node-bg");
-      bg.setAttribute("r", "25");
-      bg.setAttribute("fill", "#090e17");
-      bg.setAttribute("stroke", el.color);
-      bg.setAttribute("stroke-width", selectedElementId === el.id ? "3" : "2.5");
+      const diamond = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      diamond.setAttribute("class", "crest-diamond");
+      diamond.setAttribute("points", "0,-35 35,0 0,35 -35,0");
+      diamond.setAttribute("stroke", el.color);
+      diamond.setAttribute("stroke-width", selectedElementId === el.id ? "2.8" : "2");
 
-      const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
-      img.setAttribute("href", el.icon);
-      img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", el.icon);
-      img.setAttribute("x", "-15");
-      img.setAttribute("y", "-15");
-      img.setAttribute("width", "30");
-      img.setAttribute("height", "30");
-      img.setAttribute("pointer-events", "none");
+      const gem = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      gem.setAttribute("points", "0,-25 25,0 0,25 -25,0");
+      gem.setAttribute("fill", el.color);
+      gem.setAttribute("fill-opacity", "0.18");
+      gem.setAttribute("stroke", el.color);
+      gem.setAttribute("stroke-width", "1");
+
+      const icon = document.createElementNS("http://www.w3.org/2000/svg", "image");
+      icon.setAttribute("href", el.icon);
+      icon.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", el.icon);
+      icon.setAttribute("x", "-17");
+      icon.setAttribute("y", "-17");
+      icon.setAttribute("width", "34");
+      icon.setAttribute("height", "34");
+      icon.setAttribute("pointer-events", "none");
 
       const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      label.setAttribute("class", "node-label");
+      label.setAttribute("class", "crest-label");
       label.setAttribute("x", "0");
-      label.setAttribute("y", "42");
+      label.setAttribute("y", el.labelY.toString());
       label.textContent = el.name.toUpperCase();
 
       g.appendChild(halo);
-      g.appendChild(bg);
-      g.appendChild(img);
+      g.appendChild(diamond);
+      g.appendChild(gem);
+      g.appendChild(icon);
       g.appendChild(label);
 
       g.addEventListener("click", function() {
         selectElement(el.id);
       });
 
-      nodesGroup.appendChild(g);
+      crestsGroup.appendChild(g);
     });
-  }
 
-  function renderLinesAndBadges() {
-    if (!linesGroup || !badgesGroup) return;
-    linesGroup.innerHTML = "";
-    badgesGroup.innerHTML = "";
-
-    REACTIONS.forEach(function(r) {
-      const e1 = getElementById(r.e1);
-      const e2 = getElementById(r.e2);
-      if (!e1 || !e2) return;
-
-      const p1 = getElementCoords(e1);
-      const p2 = getElementCoords(e2);
-
-      const isConnected = r.e1 === selectedElementId || r.e2 === selectedElementId;
-      const isSelectedReact = r.id === selectedReactionId;
-
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", p1.x.toFixed(1));
-      line.setAttribute("y1", p1.y.toFixed(1));
-      line.setAttribute("x2", p2.x.toFixed(1));
-      line.setAttribute("y2", p2.y.toFixed(1));
-      line.setAttribute("stroke", e1.color);
-      line.setAttribute("class", "chart-line" + (isSelectedReact ? " selected-react" : (isConnected ? " active" : " dimmed")));
-      line.setAttribute("data-react-id", r.id);
-      line.setAttribute("data-e1", r.e1);
-      line.setAttribute("data-e2", r.e2);
-
-      line.addEventListener("click", function() {
-        selectReaction(r);
-      });
-
-      linesGroup.appendChild(line);
-
-      const midX = (p1.x + p2.x) / 2;
-      const midY = (p1.y + p2.y) / 2;
-
-      const gBadge = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      gBadge.setAttribute("class", "reaction-badge-group");
-      gBadge.setAttribute("data-react-id", r.id);
-      gBadge.setAttribute("data-e1", r.e1);
-      gBadge.setAttribute("data-e2", r.e2);
-      gBadge.setAttribute("transform", "translate(" + midX.toFixed(1) + "," + midY.toFixed(1) + ")");
-      if (!isConnected) {
-        gBadge.style.display = "none";
-      }
-
-      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      const badgeW = Math.max(56, r.name.length * 6.5 + 16);
-      rect.setAttribute("x", (-badgeW / 2).toFixed(1));
-      rect.setAttribute("y", "-10");
-      rect.setAttribute("width", badgeW.toFixed(1));
-      rect.setAttribute("height", "20");
-      rect.setAttribute("rx", "10");
-      rect.setAttribute("class", "badge-bg");
-      rect.setAttribute("fill", "#090e17");
-      rect.setAttribute("stroke", e1.color);
-      rect.setAttribute("stroke-width", isSelectedReact ? "2" : "1.5");
-
-      const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      txt.setAttribute("class", "badge-text");
-      txt.setAttribute("x", "0");
-      txt.setAttribute("y", "0.5");
-      txt.setAttribute("text-anchor", "middle");
-      txt.setAttribute("fill", "#f8fafc");
-      txt.textContent = r.name;
-
-      gBadge.appendChild(rect);
-      gBadge.appendChild(txt);
-
-      gBadge.addEventListener("click", function() {
-        selectReaction(r);
-      });
-
-      badgesGroup.appendChild(gBadge);
-    });
+    svg.appendChild(crestsGroup);
   }
 
   function selectElement(id) {
     selectedElementId = id;
 
-    const pickerBtns = document.querySelectorAll(".picker-btn");
-    pickerBtns.forEach(function(btn) {
-      if (btn.getAttribute("data-id") === id) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    });
-
-    const nodes = document.querySelectorAll(".chart-node");
-    nodes.forEach(function(n) {
-      const nid = n.getAttribute("data-id");
-      if (nid === id) {
-        n.classList.add("active");
-        n.classList.remove("dimmed");
+    const crests = document.querySelectorAll(".elem-crest");
+    crests.forEach(function(c) {
+      const cid = c.getAttribute("data-id");
+      if (cid === id) {
+        c.classList.add("active");
+        c.classList.remove("dimmed");
       } else {
         const isConnected = REACTIONS.some(function(r) {
-          return (r.e1 === id && r.e2 === nid) || (r.e2 === id && r.e1 === nid);
+          return (r.e1 === id && r.e2 === cid) || (r.e2 === id && r.e1 === cid);
         });
         if (isConnected) {
-          n.classList.remove("active", "dimmed");
+          c.classList.remove("active", "dimmed");
         } else {
-          n.classList.add("dimmed");
-          n.classList.remove("active");
+          c.classList.add("dimmed");
+          c.classList.remove("active");
         }
       }
     });
 
-    const lines = document.querySelectorAll(".chart-line");
-    lines.forEach(function(l) {
-      const e1 = l.getAttribute("data-e1");
-      const e2 = l.getAttribute("data-e2");
+    const ribbons = document.querySelectorAll(".arrow-ribbon");
+    ribbons.forEach(function(rb) {
+      const e1 = rb.getAttribute("data-e1");
+      const e2 = rb.getAttribute("data-e2");
       if (e1 === id || e2 === id) {
-        l.classList.add("active");
-        l.classList.remove("dimmed");
+        rb.classList.add("active");
+        rb.classList.remove("dimmed");
       } else {
-        l.classList.add("dimmed");
-        l.classList.remove("active", "selected-react");
+        rb.classList.add("dimmed");
+        rb.classList.remove("active", "selected");
       }
     });
 
-    const badges = document.querySelectorAll(".reaction-badge-group");
-    badges.forEach(function(b) {
-      const e1 = b.getAttribute("data-e1");
-      const e2 = b.getAttribute("data-e2");
-      if (e1 === id || e2 === id) {
-        b.style.display = "block";
-      } else {
-        b.style.display = "none";
-      }
-    });
-
-    const activeReact = REACTIONS.find(function(r) {
+    const candidate = REACTIONS.find(function(r) {
       return (r.e1 === id && r.e2 === selectedReactionId) ||
              (r.e2 === id && r.e1 === selectedReactionId) ||
              (r.id === selectedReactionId && (r.e1 === id || r.e2 === id));
@@ -721,8 +961,8 @@
       return r.e1 === id || r.e2 === id;
     });
 
-    if (activeReact) {
-      selectReaction(activeReact);
+    if (candidate) {
+      selectReaction(candidate);
     }
   }
 
@@ -759,15 +999,24 @@
       inspCatBadge.textContent = catMap[r.cat] || "REAKSI SINERGI";
     }
 
-    if (centerFormulaText) centerFormulaText.textContent = r.name;
-    if (centerActionText) centerActionText.textContent = e1.name + " + " + e2.name;
-
-    const lines = document.querySelectorAll(".chart-line");
-    lines.forEach(function(l) {
-      if (l.getAttribute("data-react-id") === r.id) {
-        l.classList.add("selected-react");
+    const ribbons = document.querySelectorAll(".arrow-ribbon");
+    ribbons.forEach(function(rb) {
+      if (rb.getAttribute("data-react-id") === r.id) {
+        rb.classList.add("selected", "active");
+        rb.classList.remove("dimmed");
       } else {
-        l.classList.remove("selected-react");
+        rb.classList.remove("selected");
+      }
+    });
+
+    const crests = document.querySelectorAll(".elem-crest");
+    crests.forEach(function(c) {
+      const cid = c.getAttribute("data-id");
+      if (cid === r.e1 || cid === r.e2) {
+        c.classList.add("active");
+        c.classList.remove("dimmed");
+      } else {
+        c.classList.remove("active");
       }
     });
 
@@ -837,14 +1086,11 @@
     });
   }
 
-  renderPickerBar();
-  renderNodes();
-  renderLinesAndBadges();
+  renderInfographicChart();
   renderGrid();
   initFilters();
 
   if (REACTIONS.length > 0) {
-    selectElement("api");
     selectReaction(REACTIONS[0]);
   }
 })();

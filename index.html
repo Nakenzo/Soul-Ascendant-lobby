@@ -28,14 +28,8 @@
 
       <nav class="nav-links">
         <a href="#downloads" class="nav-link" id="navLinkDownloads">Unduh Game</a>
-        <a href="#reactions" class="nav-link" id="navLinkReactions">Reaksi Elemen</a>
         <a href="#guide" class="nav-link" id="navLinkGuide">Panduan Pasang</a>
-        <a href="https://github.com/Nakenzo/Soul-Essence" target="_blank" rel="noopener noreferrer" class="nav-link github-pill" id="navGithub">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-          <span>GitHub</span>
-        </a>
+        <a href="#reactions" class="nav-link" id="navLinkReactions">Reaksi Elemen</a>
       </nav>
 
       <div class="audio-control">
@@ -67,7 +61,7 @@
         </div>
 
         <div class="hero-logo-box">
-          <img src="assets/logo-soul-essence.svg" alt="Soul Essence" class="soul-essence-logo" width="380" height="138">
+          <img src="assets/logo-soul-essence.svg" alt="Soul Essence" class="soul-essence-logo" width="540" height="196">
         </div>
 
         <p class="hero-description">
@@ -239,84 +233,6 @@
       </div>
     </section>
 
-    <section id="reactions" class="reactions-section">
-      <div class="section-header">
-        <h2 class="section-title">DIAGRAM REAKSI ELEMEN</h2>
-        <p class="section-subtitle">Padukan 2 atribut elemen berbeda pada musuh untuk memicu ledakan reaksi dahsyat di medan tempur</p>
-      </div>
-
-      <div class="element-picker-bar" id="elementPickerBar"></div>
-
-      <div class="chart-wrapper">
-        <div class="chart-container">
-          <svg id="reactionChartSvg" viewBox="0 0 600 600" class="reaction-svg">
-            <defs>
-              <filter id="svgGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-              </filter>
-              <filter id="nodeGlow" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
-                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-              </filter>
-            </defs>
-
-            <circle cx="300" cy="300" r="210" class="chart-orbit-ring"/>
-            <circle cx="300" cy="300" r="130" class="chart-orbit-inner"/>
-
-            <g id="chartLinesGroup" class="chart-lines"></g>
-            <g id="chartBadgesGroup" class="chart-badges"></g>
-
-            <g id="chartCenterGroup" class="chart-center">
-              <circle cx="300" cy="300" r="50" class="center-core-bg"/>
-              <circle cx="300" cy="300" r="46" class="center-core-ring"/>
-              <text x="300" y="295" id="centerFormulaText" class="center-formula">PILIH ELEMEN</text>
-              <text x="300" y="312" id="centerActionText" class="center-sub">KLIK IKON</text>
-            </g>
-
-            <g id="chartNodesGroup" class="chart-nodes"></g>
-          </svg>
-        </div>
-
-        <div class="reaction-inspector" id="reactionInspector">
-          <div class="inspector-badge" id="inspectorCatBadge">REAKSI ENERGI TINGGI</div>
-          <div class="inspector-header">
-            <div class="inspector-icons" id="inspectorIcons">
-              <img src="assets/element-api.svg" alt="Api" class="elem-mini" id="inspIcon1">
-              <span class="plus-sign">+</span>
-              <img src="assets/element-es.svg" alt="Es" class="elem-mini" id="inspIcon2">
-            </div>
-            <div class="inspector-names">
-              <h3 class="inspector-title" id="inspectorTitle">MELT</h3>
-              <span class="inspector-formula" id="inspectorFormula">Api + Es</span>
-            </div>
-          </div>
-
-          <div class="inspector-body">
-            <p class="inspector-desc" id="inspectorDesc">Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.</p>
-            <div class="inspector-tip" id="inspectorTip">
-              <strong>Taktik:</strong> Dinginkan musuh dengan panah es Kenzro lalu sambut dengan sabit api Vender untuk damage puncak.
-            </div>
-          </div>
-
-          <div class="inspector-instruction">
-            <span>Pilih elemen di diagram atau tombol di atas untuk melihat detail reaksi sinergi.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="reaction-filter-bar">
-        <button class="btn-filter active" data-filter="all">Semua Reaksi</button>
-        <button class="btn-filter" data-filter="energi">Reaksi Klasik</button>
-        <button class="btn-filter" data-filter="angin">Pusaran Angin (Swirl)</button>
-        <button class="btn-filter" data-filter="tanah">Tanah (Crystallize & Crush)</button>
-        <button class="btn-filter" data-filter="nihil">Nihil (Corrosion & Enchant)</button>
-        <button class="btn-filter" data-filter="fisik">Fisik (Impak Kinetik)</button>
-      </div>
-
-      <div class="reactions-grid" id="reactionsGrid"></div>
-    </section>
-
     <section id="guide" class="guide-section">
       <div class="section-header">
         <h2 class="section-title">PANDUAN PEMASANGAN</h2>
@@ -342,6 +258,56 @@
           <p class="step-text">Klik tombol <strong>Mainkan Versi Web</strong>. Game langsung terbuka di browser tanpa instalasi. Untuk menyimpan sebagai aplikasi offline di HP atau PC, klik tombol <em>"Install App"</em> di bilah alamat browser.</p>
         </div>
       </div>
+    </section>
+
+    <section id="reactions" class="reactions-section">
+      <div class="section-header">
+        <h2 class="section-title">DIAGRAM REAKSI ELEMEN</h2>
+        <p class="section-subtitle">Infografik interaktif sinergi 8 atribut elemen jiwa dan kombinasi reaksi tempur</p>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-container">
+          <svg id="reactionChartSvg" viewBox="0 0 800 750" class="reaction-svg"></svg>
+        </div>
+
+        <div class="reaction-inspector" id="reactionInspector">
+          <div class="inspector-badge" id="inspectorCatBadge">REAKSI ENERGI TINGGI</div>
+          <div class="inspector-header">
+            <div class="inspector-icons" id="inspectorIcons">
+              <img src="assets/element-api.svg" alt="Api" class="elem-mini" id="inspIcon1">
+              <span class="plus-sign">+</span>
+              <img src="assets/element-es.svg" alt="Es" class="elem-mini" id="inspIcon2">
+            </div>
+            <div class="inspector-names">
+              <h3 class="inspector-title" id="inspectorTitle">MELT</h3>
+              <span class="inspector-formula" id="inspectorFormula">Api + Es</span>
+            </div>
+          </div>
+
+          <div class="inspector-body">
+            <p class="inspector-desc" id="inspectorDesc">Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.</p>
+            <div class="inspector-tip" id="inspectorTip">
+              <strong>Taktik:</strong> Dinginkan musuh dengan panah es Kenzro lalu sambut dengan sabit api Vender untuk damage puncak.
+            </div>
+          </div>
+
+          <div class="inspector-instruction">
+            <span>Klik panah reaksi atau ikon elemen di diagram untuk menginspeksi taktik sinergi.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction-filter-bar">
+        <button class="btn-filter active" data-filter="all">Semua Reaksi</button>
+        <button class="btn-filter" data-filter="energi">Reaksi Klasik</button>
+        <button class="btn-filter" data-filter="angin">Pusaran Angin (Swirl)</button>
+        <button class="btn-filter" data-filter="tanah">Tanah (Crystallize & Crush)</button>
+        <button class="btn-filter" data-filter="nihil">Nihil (Corrosion & Enchant)</button>
+        <button class="btn-filter" data-filter="fisik">Fisik (Impak Kinetik)</button>
+      </div>
+
+      <div class="reactions-grid" id="reactionsGrid"></div>
     </section>
   </main>
 
