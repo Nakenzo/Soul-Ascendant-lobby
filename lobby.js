@@ -207,14 +207,14 @@
 
 (function() {
   const ELEMENTS = [
-    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 350, y: 120, labelX: 0, labelY: -42 },
-    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 530, y: 207, labelX: 42, labelY: -16 },
-    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 574, y: 401, labelX: 46, labelY: 4 },
-    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 450, y: 557, labelX: 38, labelY: 34 },
-    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 250, y: 557, labelX: -38, labelY: 34 },
-    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 126, y: 401, labelX: -46, labelY: 4 },
-    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 170, y: 207, labelX: -42, labelY: -16 },
-    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 350, y: 350, labelX: 0, labelY: 46 }
+    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 440, y: 120, labelX: 0, labelY: -46 },
+    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 690, y: 240, labelX: 44, labelY: -22 },
+    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 752, y: 511, labelX: 48, labelY: 6 },
+    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 579, y: 728, labelX: 36, labelY: 38 },
+    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 301, y: 728, labelX: -36, labelY: 38 },
+    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 128, y: 511, labelX: -48, labelY: 6 },
+    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 190, y: 240, labelX: -44, labelY: -22 },
+    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 440, y: 440, labelX: 0, labelY: 48 }
   ];
 
   const REACTIONS = [
@@ -224,6 +224,7 @@
       e2: "es",
       name: "SHATTER",
       label: "SHATTER x2.5",
+      badgeT: 0.52,
       cat: "fisik",
       desc: "Memecahkan kristal es musuh dengan damage kritis instan x2.5 lipat dan menyebarkan serpihan es.",
       tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
@@ -234,6 +235,7 @@
       e2: "api",
       name: "SPARK",
       label: "SPARK",
+      badgeT: 0.52,
       cat: "fisik",
       desc: "Letupan percikan gesekan bara (+25% Crit Damage + Micro Knockback mundur).",
       tip: "Taktik: Beri jarak aman bagi pemain jarak dekat saat menyerang musuh membara."
@@ -244,6 +246,7 @@
       e2: "petir",
       name: "DISCHARGE",
       label: "DISCHARGE",
+      badgeT: 0.50,
       cat: "fisik",
       desc: "Pelepasan arus mendadak yang memicu micro-stun 0.4 detik dan membatalkan serangan musuh.",
       tip: "Taktik: Gunakan untuk menghentikan serangan mendadak monster agresif."
@@ -254,6 +257,7 @@
       e2: "nature",
       name: "SPLINTER",
       label: "SPLINTER",
+      badgeT: 0.50,
       cat: "fisik",
       desc: "Pecahan duri tajam berhamburan ke segala arah dan menimbulkan pendarahan ringan.",
       tip: "Taktik: Mengubah serangan fisik satu target menjadi kerusakan area mini."
@@ -264,6 +268,7 @@
       e2: "fisik",
       name: "CRUSH",
       label: "CRUSH",
+      badgeT: 0.50,
       cat: "tanah",
       desc: "Hantaman remuk yang meremukkan ketahanan monster armor tebal dan memberi efek stun singkat.",
       tip: "Taktik: Hancurkan pelindung musuh yang memiliki bar armor keras."
@@ -274,6 +279,7 @@
       e2: "fisik",
       name: "ENCHANT CORROSION",
       label: "VOID ENCHANT",
+      badgeT: 0.50,
       cat: "nihil",
       desc: "Skill fisik memicu pasif buff pelapisan korosi selama 5 detik untuk seluruh serangan karakter.",
       tip: "Taktik: Aktifkan skill fisik pada musuh void, lalu serang bebas dengan base attack."
@@ -285,6 +291,7 @@
       e2: "es",
       name: "MELT",
       label: "MELT x2.0",
+      badgeT: 0.50,
       cat: "energi",
       desc: "Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.",
       tip: "Taktik: Dinginkan musuh dengan panah es Kenzro lalu sambut dengan sabit api Vender untuk damage puncak."
@@ -295,6 +302,7 @@
       e2: "petir",
       name: "OVERLOAD",
       label: "OVERLOAD",
+      badgeT: 0.50,
       cat: "energi",
       desc: "Ledakan plasma dahsyat berskala AoE yang mementalkan musuh di dekatnya.",
       tip: "Taktik: Efektif membubarkan formasi kerumunan monster kecil yang mengepung karakter."
@@ -305,6 +313,7 @@
       e2: "nature",
       name: "COMBUSTION",
       label: "COMBUSTION",
+      badgeT: 0.32,
       cat: "energi",
       desc: "Kobaran api hayati membakar hebat dengan DoT tinggi yang bisa menyebar ke musuh lain.",
       tip: "Taktik: Tempelkan benih nature lalu sulut dengan api untuk damage bakar berkepanjangan."
@@ -315,6 +324,7 @@
       e2: "petir",
       name: "SUPERCONDUCT",
       label: "SUPERCONDUCT",
+      badgeT: 0.32,
       cat: "energi",
       desc: "Hantaran suhu rendah bertegangan tinggi yang meruntuhkan Armor/Defense musuh sebesar 40%.",
       tip: "Taktik: Sangat krusial digunakan sebelum melancarkan rentetan damage fisik masif."
@@ -325,6 +335,7 @@
       e2: "nature",
       name: "CATALYZE",
       label: "CATALYZE",
+      badgeT: 0.50,
       cat: "energi",
       desc: "Medan bio-listrik yang memicu sengatan listrik rantai tambahan pada setiap serangan berikutnya.",
       tip: "Taktik: Cocok untuk karakter dengan attack speed tinggi agar memicu proc listrik beruntun."
@@ -335,6 +346,7 @@
       e2: "nature",
       name: "FROSTBITE SPORE",
       label: "FROSTBITE",
+      badgeT: 0.68,
       cat: "energi",
       desc: "Spora es meletus, membekukan musuh di sekitar target selama 1.5 detik.",
       tip: "Taktik: Hentikan laju monster cepat agar posisinya terkunci di arena."
@@ -346,6 +358,7 @@
       e2: "api",
       name: "FLAME CORROSION",
       label: "FLAME CORR",
+      badgeT: 0.30,
       cat: "nihil",
       desc: "Korosi api hitam yang menggerogoti HP musuh dan menular ke monster lain yang bersentuhan.",
       tip: "Taktik: Api hitam akan terus menyebar selama musuh bergerombol rapat."
@@ -356,6 +369,7 @@
       e2: "es",
       name: "FROST CORROSION",
       label: "FROST CORR",
+      badgeT: 0.50,
       cat: "nihil",
       desc: "Korosi dingin ekstrem yang membekukan musuh seketika selama 1.5 detik dan mengikis movement speed.",
       tip: "Taktik: Kunci musuh berbahaya tanpa memberi jeda serangan balasan."
@@ -366,6 +380,7 @@
       e2: "nature",
       name: "PLAGUE CORROSION",
       label: "PLAGUE CORR",
+      badgeT: 0.50,
       cat: "nihil",
       desc: "Korosi asam hayati yang merontokkan 30% armor musuh dan menguras HP secara bertahap.",
       tip: "Taktik: Sangat efektif mengikis musuh dengan darah tebal."
@@ -376,6 +391,7 @@
       e2: "petir",
       name: "VOLT CORROSION",
       label: "VOLT CORR",
+      badgeT: 0.28,
       cat: "nihil",
       desc: "Korosi statis yang memancarkan sengatan mini setiap detik, menginterupsi animasi serangan musuh.",
       tip: "Taktik: Gagalkan jurus bos yang memiliki waktu ancang-ancang panjang."
@@ -387,6 +403,7 @@
       e2: "api",
       name: "FIRE SWIRL",
       label: "FIRE SWIRL",
+      badgeT: 0.30,
       cat: "angin",
       desc: "Pusaran badai api menyerap elemen dan menyebarkan aura bakar ke seluruh musuh di sekitar.",
       tip: "Taktik: Menyebarkan status bakar ke seluruh gerombolan musuh hanya dengan satu hembusan."
@@ -397,6 +414,7 @@
       e2: "es",
       name: "FROST SWIRL",
       label: "FROST SWIRL",
+      badgeT: 0.28,
       cat: "angin",
       desc: "Pusaran badai es menyebarkan efek perlambatan gerak dan hawa dingin ke area luas.",
       tip: "Taktik: Melambatkan seluruh pasukan musuh di satu layar sekaligus."
@@ -407,6 +425,7 @@
       e2: "petir",
       name: "THUNDER SWIRL",
       label: "VOLT SWIRL",
+      badgeT: 0.50,
       cat: "angin",
       desc: "Pusaran angin petir memicu sambaran listrik berantai ke beberapa monster terdekat.",
       tip: "Taktik: Memperluas jangkauan sengatan listrik Voiz tanpa harus mendekati musuh."
@@ -417,6 +436,7 @@
       e2: "nature",
       name: "NATURE SWIRL",
       label: "BIO SWIRL",
+      badgeT: 0.50,
       cat: "angin",
       desc: "Pusaran daun berputar menyebarkan benih flora ke seluruh target di sekitarnya.",
       tip: "Taktik: Mempersiapkan banyak musuh sekaligus untuk kombo reaksi lanjutan."
@@ -428,6 +448,7 @@
       e2: "api",
       name: "FIRE CRYSTALLIZE",
       label: "FIRE CRYST",
+      badgeT: 0.28,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai api di lantai; memberikan perisai penyerap damage api.",
       tip: "Taktik: Ambil pecahan kristal agar kebal terhadap serangan bara musuh."
@@ -438,6 +459,7 @@
       e2: "es",
       name: "FROST CRYSTALLIZE",
       label: "FROST CRYST",
+      badgeT: 0.30,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai es; memberikan perisai penyerap damage es.",
       tip: "Taktik: Menangkal efek beku dari serangan bos berelemen es."
@@ -448,6 +470,7 @@
       e2: "petir",
       name: "VOLT CRYSTALLIZE",
       label: "VOLT CRYST",
+      badgeT: 0.28,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai petir; memberikan perisai penyerap damage listrik.",
       tip: "Taktik: Melindungi diri dari sengatan statis di lantai pertarungan."
@@ -458,6 +481,7 @@
       e2: "nature",
       name: "BIO CRYSTALLIZE",
       label: "BIO CRYST",
+      badgeT: 0.50,
       cat: "tanah",
       desc: "Menjatuhkan kristal perisai alam; memberikan regenerasi shield ringan.",
       tip: "Taktik: Memperpanjang daya tahan hidup karakter saat menghadapi wave panjang."
@@ -468,6 +492,7 @@
       e2: "nihil",
       name: "EROSION",
       label: "EROSION",
+      badgeT: 0.50,
       cat: "tanah",
       desc: "Pengikisan kepadatan tanah yang mengabaikan 50% defense musuh terhadap serangan berikutnya.",
       tip: "Taktik: Membuat musuh dengan pertahanan tinggi menjadi sangat rentan."
@@ -532,16 +557,16 @@
     svg.appendChild(defs);
 
     const orbitOuter = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    orbitOuter.setAttribute("cx", "350");
-    orbitOuter.setAttribute("cy", "350");
-    orbitOuter.setAttribute("r", "230");
+    orbitOuter.setAttribute("cx", "440");
+    orbitOuter.setAttribute("cy", "440");
+    orbitOuter.setAttribute("r", "320");
     orbitOuter.setAttribute("class", "diagram-orbit-outer");
     svg.appendChild(orbitOuter);
 
     const orbitInner = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    orbitInner.setAttribute("cx", "350");
-    orbitInner.setAttribute("cy", "350");
-    orbitInner.setAttribute("r", "115");
+    orbitInner.setAttribute("cx", "440");
+    orbitInner.setAttribute("cy", "440");
+    orbitInner.setAttribute("r", "160");
     orbitInner.setAttribute("class", "diagram-orbit-inner");
     svg.appendChild(orbitInner);
 
@@ -561,8 +586,8 @@
       const ux = dx / dist;
       const uy = dy / dist;
 
-      const r1 = e1.id === "fisik" ? 34 : 28;
-      const r2 = e2.id === "fisik" ? 34 : 28;
+      const r1 = e1.id === "fisik" ? 36 : 30;
+      const r2 = e2.id === "fisik" ? 36 : 30;
 
       const sx = e1.x + ux * r1;
       const sy = e1.y + uy * r1;
@@ -597,20 +622,22 @@
       core.setAttribute("y2", ey.toFixed(1));
       core.setAttribute("class", "cable-core");
 
-      const midX = (sx + ex) / 2;
-      const midY = (sy + ey) / 2;
+      const t = r.badgeT !== undefined ? r.badgeT : 0.5;
+      const badgeX = sx + (ex - sx) * t;
+      const badgeY = sy + (ey - sy) * t;
+
       const labelText = r.label || r.name;
-      const badgeW = Math.max(52, labelText.length * 6.2 + 14);
+      const badgeW = Math.max(54, labelText.length * 6.4 + 14);
 
       const badge = document.createElementNS("http://www.w3.org/2000/svg", "g");
       badge.setAttribute("class", "cable-badge");
-      badge.setAttribute("transform", "translate(" + midX.toFixed(1) + "," + midY.toFixed(1) + ")");
+      badge.setAttribute("transform", "translate(" + badgeX.toFixed(1) + "," + badgeY.toFixed(1) + ")");
 
       const pill = document.createElementNS("http://www.w3.org/2000/svg", "rect");
       pill.setAttribute("x", (-badgeW / 2).toFixed(1));
-      pill.setAttribute("y", "-9");
+      pill.setAttribute("y", "-9.5");
       pill.setAttribute("width", badgeW.toFixed(1));
-      pill.setAttribute("height", "18");
+      pill.setAttribute("height", "19");
       pill.setAttribute("class", "cable-badge-pill");
       pill.setAttribute("stroke", e1.color);
 
@@ -648,25 +675,25 @@
       g.setAttribute("transform", "translate(" + el.x.toFixed(1) + "," + el.y.toFixed(1) + ")");
 
       const hit = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      hit.setAttribute("r", isCenter ? "38" : "34");
+      hit.setAttribute("r", isCenter ? "40" : "36");
       hit.setAttribute("class", "crest-hit");
 
       const halo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       halo.setAttribute("class", "crest-halo");
-      halo.setAttribute("r", isCenter ? "36" : "31");
+      halo.setAttribute("r", isCenter ? "38" : "33");
       halo.setAttribute("fill", "none");
       halo.setAttribute("stroke", el.color);
       halo.setAttribute("stroke-width", selectedElementId === el.id ? "3.5" : "2");
       halo.setAttribute("stroke-dasharray", isCenter ? "4 4" : "3 3");
-      halo.setAttribute("opacity", selectedElementId === el.id ? "1" : "0.5");
+      halo.setAttribute("opacity", selectedElementId === el.id ? "1" : "0.55");
 
       const gem = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       gem.setAttribute("class", "crest-gem");
-      gem.setAttribute("r", isCenter ? "29" : "24");
+      gem.setAttribute("r", isCenter ? "30" : "26");
       gem.setAttribute("stroke", el.color);
-      gem.setAttribute("stroke-width", selectedElementId === el.id ? "2.5" : "1.8");
+      gem.setAttribute("stroke-width", selectedElementId === el.id ? "2.6" : "1.8");
 
-      const iconSize = isCenter ? 32 : 28;
+      const iconSize = isCenter ? 34 : 30;
       const icon = document.createElementNS("http://www.w3.org/2000/svg", "image");
       icon.setAttribute("href", el.icon);
       icon.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", el.icon);
