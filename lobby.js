@@ -230,37 +230,48 @@
       tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
     },
     {
-      id: "spark",
+      id: "vortex",
+      e1: "fisik",
+      e2: "angin",
+      name: "VORTEX",
+      label: "VORTEX",
+      badgeT: 0.50,
+      cat: "fisik",
+      desc: "Hantaman fisik berpadu pusaran angin memicu daya hisap vakum yang menarik musuh sekitar dalam radius 240px ke pusat ledakan dan memberi damage instan berskala EM.",
+      tip: "Taktik: Kumpulkan gerombolan monster ke satu titik sebelum melancarkan serangan area besar."
+    },
+    {
+      id: "bleeding_api",
       e1: "fisik",
       e2: "api",
-      name: "SPARK",
-      label: "SPARK",
+      name: "BLEEDING",
+      label: "BLEEDING!",
       badgeT: 0.45,
       cat: "fisik",
-      desc: "Letupan percikan gesekan bara (+25% Crit Damage + Micro Knockback mundur).",
-      tip: "Taktik: Beri jarak aman bagi pemain jarak dekat saat menyerang musuh membara."
+      desc: "Gesekan senjata fisik memicu luka pendarahan panas yang menguras HP musuh berkala selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
+      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
     },
     {
-      id: "discharge",
+      id: "bleeding_petir",
       e1: "fisik",
       e2: "petir",
-      name: "DISCHARGE",
-      label: "DISCHARGE",
+      name: "BLEEDING",
+      label: "BLEEDING!",
       badgeT: 0.50,
       cat: "fisik",
-      desc: "Pelepasan arus mendadak yang memicu micro-stun 0.4 detik dan membatalkan serangan musuh.",
-      tip: "Taktik: Gunakan untuk menghentikan serangan mendadak monster agresif."
+      desc: "Sobekan luka fisik bertegangan listrik memicu pendarahan hebat selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
+      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
     },
     {
-      id: "splinter",
+      id: "bleeding_nature",
       e1: "fisik",
       e2: "nature",
-      name: "SPLINTER",
-      label: "SPLINTER",
+      name: "BLEEDING",
+      label: "BLEEDING!",
       badgeT: 0.50,
       cat: "fisik",
-      desc: "Pecahan duri tajam berhamburan ke segala arah dan menimbulkan pendarahan ringan.",
-      tip: "Taktik: Mengubah serangan fisik satu target menjadi kerusakan area mini."
+      desc: "Luka robek duri alami memicu pendarahan hebat berkepanjangan selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
+      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
     },
     {
       id: "crush",
@@ -440,6 +451,28 @@
       cat: "angin",
       desc: "Pusaran daun berputar menyebarkan benih flora ke seluruh target di sekitarnya.",
       tip: "Taktik: Mempersiapkan banyak musuh sekaligus untuk kombo reaksi lanjutan."
+    },
+    {
+      id: "swirl_nihil",
+      e1: "angin",
+      e2: "nihil",
+      name: "SWIRL CORROSION",
+      label: "SWIRL CORR",
+      badgeT: 0.40,
+      cat: "angin",
+      desc: "Pusaran badai void mengoyak target utama (damage 0.5x + DoT korosi 4.5s) dan menyebarkan status korosi serta damage cipratan ke seluruh musuh sekitar dalam radius 190px.",
+      tip: "Taktik: Sebarkan korosi void ke banyak musuh sekaligus hanya dengan serangan elemen angin."
+    },
+    {
+      id: "sandstorm",
+      e1: "angin",
+      e2: "tanah",
+      name: "SANDSTORM",
+      label: "SANDSTORM",
+      badgeT: 0.50,
+      cat: "angin",
+      desc: "Badai gurun berputar dahsyat menghasilkan damage ledakan 1.1x berskala EM, efek slow 1.2 detik, dan sapuan badai pasir ke area sekitar seluas radius 210px.",
+      tip: "Taktik: Paduan angin dan tanah untuk melumpuhkan laju musuh sekaligus menyapu kerumunan."
     },
 
     {
