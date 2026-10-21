@@ -253,7 +253,7 @@ main {
 }
 
 .soul-ascendant-logo,
-.soul-essence-logo {
+.soul-ascendant-logo {
   display: block;
   width: min(540px, 92vw);
   max-width: 540px;
@@ -266,7 +266,7 @@ main {
 }
 
 .soul-ascendant-logo:hover,
-.soul-essence-logo:hover {
+.soul-ascendant-logo:hover {
   transform: scale(1.02);
 }
 

@@ -33,7 +33,7 @@ Karena website lobby ini direncanakan berdiri di repositori terpisah dari kode s
 
 ### 1. Buat Repositori Baru di GitHub
 1. Buka [GitHub New Repository](https://github.com/new).
-2. Beri nama repositori, contoh: `soul-essence-lobby` atau `soul-essence-portal`.
+2. Beri nama repositori, contoh: `soul-ascendant-lobby` atau `soul-ascendant-portal`.
 3. Pilih opsi **Public** lalu klik **Create repository**.
 
 ### 2. Unggah Isi Folder Lobby ke Repositori Baru
@@ -43,7 +43,7 @@ Buka terminal PowerShell pada folder `lobby`:
 cd "c:\Users\MyBook Hype AMD\OneDrive\Documents\bljr\lobby"
 git init
 git add .
-git commit -m "feat: inisialisasi web lobby Soul Essence dengan 3 tombol platform"
+git commit -m "feat: inisialisasi web lobby Soul Ascendant dengan 3 tombol platform"
 git branch -M main
 git remote add origin https://github.com/Nakenzo/NAMA-REPO-BARU.git
 git push -u origin main
