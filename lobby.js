@@ -164,12 +164,12 @@
         for (let i = 0; i < data.assets.length; i++) {
           const a = data.assets[i];
           const sizeStr = formatBytes(a.size);
-          if (a.name === "Soul-Ascendant.apk" || a.name === "Soul-Ascendant.apk") {
+          if (a.name === "Soul-Ascendant.apk") {
             if (linkAndroid && a.browser_download_url) linkAndroid.href = a.browser_download_url;
             if (infoAndroid) infoAndroid.textContent = a.name + sizeStr;
-          } else if (a.name === "Soul-Ascendant-Setup.exe" || a.name === "Soul-Ascendant-Setup.exe") {
+          } else if (a.name === "Soul-Ascendant-Setup.exe") {
             if (linkPc && a.browser_download_url) linkPc.href = a.browser_download_url;
-          } else if (a.name === "Soul-Ascendant.msi" || a.name === "Soul-Ascendant.msi") {
+          } else if (a.name === "Soul-Ascendant.msi") {
             if (linkMsi && a.browser_download_url) linkMsi.href = a.browser_download_url;
           }
         }
