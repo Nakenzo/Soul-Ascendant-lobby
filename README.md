@@ -1,6 +1,6 @@
-# Soul Essence — Official Web Lobby & Download Portal
+# Soul Ascendant — Official Web Lobby & Download Portal
 
-Landing page resmi untuk game **Soul Essence (2D Top-Down Action Roguelike)**. Website ini menampilkan showcase game, preview karakter, musik latar lobby, serta **3 tombol instalasi/bermain**:
+Landing page resmi untuk game **Soul Ascendant (2D Top-Down Action Roguelike)**. Website ini menampilkan showcase game, preview karakter, musik latar lobby, serta **3 tombol instalasi/bermain**:
 
 1. 📱 **Download Android APK** (Langsung unduh berkas `.apk` tanpa ZIP)
 2. 💻 **Download PC Windows** (Pemasang native `.exe` bertenaga Tauri 2.0 & opsi paket `.msi`)
