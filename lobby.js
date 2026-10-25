@@ -167,8 +167,11 @@
           if (a.name === "Soul-Ascendant.apk") {
             if (linkAndroid && a.browser_download_url) linkAndroid.href = a.browser_download_url;
             if (infoAndroid) infoAndroid.textContent = a.name + sizeStr;
-          } else if (a.name === "Soul-Ascendant-Setup.exe") {
+          } else if (a.name === "Soul-Ascendant.exe") {
             if (linkPc && a.browser_download_url) linkPc.href = a.browser_download_url;
+          } else if (a.name === "Soul-Ascendant-Setup.exe") {
+            const linkSetup = document.getElementById("linkDownloadSetup");
+            if (linkSetup && a.browser_download_url) linkSetup.href = a.browser_download_url;
           } else if (a.name === "Soul-Ascendant.msi") {
             if (linkMsi && a.browser_download_url) linkMsi.href = a.browser_download_url;
           }
