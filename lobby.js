@@ -222,16 +222,16 @@
 
   const REACTIONS = [
     {
-      id: "shatter",
+      id: "shatters",
       e1: "fisik",
       e2: "es",
-      name: "SHATTER",
-      label: "SHATTER x2.5",
+      name: "SHATTERS",
+      label: "SHATTERS x2.5",
       badgeT: 0.50,
       cat: "fisik",
-      anim: "shatter",
-      desc: "Memecahkan kristal es musuh dengan damage kritis instan x2.5 lipat dan menyebarkan serpihan es.",
-      tip: "Taktik: Bekukan musuh terlebih dahulu lalu hantam dengan serangan fisik keras."
+      anim: "shatters",
+      desc: "Pecahan es fatal saat musuh yang membeku total (Freeze) dihantam serangan Fisik. Menimbulkan burst damage kritis 2.5x lipat berskala EM dan memecahkan kebekuan musuh.",
+      tip: "Taktik: Timbun Elemental Gauge es sampai musuh membeku (Freeze), lalu hantam dengan serangan fisik untuk burst damage puncak."
     },
     {
       id: "vortex",
@@ -246,28 +246,28 @@
       tip: "Taktik: Kumpulkan gerombolan monster ke satu titik sebelum melancarkan serangan area besar."
     },
     {
-      id: "bleeding_api",
+      id: "assault",
       e1: "fisik",
       e2: "api",
-      name: "BLEEDING",
-      label: "BLEEDING!",
+      name: "ASSAULT",
+      label: "ASSAULT!",
       badgeT: 0.45,
       cat: "fisik",
-      anim: "bleeding",
-      desc: "Gesekan senjata fisik memicu luka pendarahan panas yang menguras HP musuh berkala selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
-      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
+      anim: "assault",
+      desc: "Serangan tebasan fisik saat musuh terkena status Burn. Memberikan damage tebasan beruntun 1.8x lipat ditambah seluruh sisa damage bakar seketika.",
+      tip: "Taktik: Bakar musuh hingga terbakar (Burn), lalu timpa dengan serangan fisik untuk meletuskan seluruh sisa DoT api sekaligus."
     },
     {
-      id: "bleeding_petir",
+      id: "discharge",
       e1: "fisik",
       e2: "petir",
-      name: "BLEEDING",
-      label: "BLEEDING!",
+      name: "DISCHARGE",
+      label: "DISCHARGE!",
       badgeT: 0.50,
       cat: "fisik",
-      anim: "bleeding",
-      desc: "Sobekan luka fisik bertegangan listrik memicu pendarahan hebat selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
-      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
+      anim: "discharge",
+      desc: "Pelepasan muatan listrik statis dahsyat saat musuh yang lumpuh (Paralyze) ditimpa serangan fisik. Menghasilkan bonus damage 1.9x lipat dan memancarkan sengatan listrik rantai (chain lightning) ke musuh lain dalam radius 180px.",
+      tip: "Taktik: Timbun gauge listrik hingga musuh mengalami Paralyze, lalu hantam dengan serangan fisik untuk menyengat gerombolan musuh sekitar."
     },
     {
       id: "bleeding_nature",
@@ -286,12 +286,12 @@
       e1: "tanah",
       e2: "fisik",
       name: "CRUSH",
-      label: "CRUSH",
+      label: "CRUSH!",
       badgeT: 0.50,
       cat: "tanah",
       anim: "crush",
-      desc: "Hantaman remuk yang meremukkan ketahanan monster armor tebal dan memberi efek stun singkat.",
-      tip: "Taktik: Hancurkan pelindung musuh yang memiliki bar armor keras."
+      desc: "Hantaman remuk kinetik pada musuh yang mengalami efek Crystalize. Menghasilkan damage remuk 2.2x lipat berskala EM dan memberikan stun berat 0.4 detik pada musuh.",
+      tip: "Taktik: Penuhi gauge elemen Tanah hingga musuh ter-Crystalize, lalu hantam dengan fisik untuk menghentikan gerak musuh."
     },
     {
       id: "enchant_corrosion",
@@ -380,16 +380,16 @@
     },
 
     {
-      id: "flame_corrosion",
+      id: "ignis",
       e1: "nihil",
       e2: "api",
-      name: "FLAME CORROSION",
-      label: "FLAME CORR",
+      name: "IGNIS",
+      label: "IGNIS",
       badgeT: 0.28,
       cat: "nihil",
-      anim: "flame_corrosion",
-      desc: "Korosi api hitam yang menggerogoti HP musuh dan menular ke monster lain yang bersentuhan.",
-      tip: "Taktik: Api hitam akan terus menyebar selama musuh bergerombol rapat."
+      anim: "ignis",
+      desc: "Pusaran kobaran api hampa kirmizi (Nihil + Api) yang merambat ganas, mengikis HP musuh berkala (DoT tick tiap 0.35s selama 4 detik berskala EM) dengan pancaran energi kosmis.",
+      tip: "Taktik: Kombinasikan elemen Nihil dan Api untuk menimbulkan kerusakan korosi api dahsyat pada monster elit dan bos."
     },
     {
       id: "frost_corrosion",
@@ -974,10 +974,7 @@
     const cx = W / 2;
     const cy = H / 2;
     const kJenis = String(jenis || "vortex").toLowerCase();
-    let totalFrames = 8;
-    if (kJenis === "vortex" || kJenis === "void_corrosion" || kJenis === "swirl_corrosion" || kJenis === "sandstorm" || kJenis === "plague_corrosion" || kJenis === "overload" || kJenis === "superconduct" || kJenis === "catalyze" || kJenis === "crush" || kJenis === "swirl_api" || kJenis === "swirl_es" || kJenis === "swirl_petir" || kJenis === "flame_corrosion" || kJenis === "volt_corrosion" || kJenis === "frost_corrosion" || kJenis === "crystallize") {
-      totalFrames = 10;
-    }
+    let totalFrames = 10;
     const frames = [];
 
     for (let f = 0; f < totalFrames; f++) {
@@ -987,10 +984,12 @@
       const g = cs.getContext("2d");
       const t = f / (totalFrames - 1);
 
-      if (kJenis === "shatter") {
-        const rBloom = 10 + t * 24;
+      if (kJenis === "shatters" || kJenis === "shatter") {
+        const alpha = Math.max(0, 1 - Math.pow(t, 1.8));
+        const rBloom = 12 + t * 40;
         const bgG = g.createRadialGradient(cx, cy, 2, cx, cy, rBloom);
-        bgG.addColorStop(0, "rgba(56, 189, 248, " + (0.5 * (1 - t)) + ")");
+        bgG.addColorStop(0, "rgba(56, 189, 248, " + (0.65 * (1 - t)) + ")");
+        bgG.addColorStop(0.55, "rgba(186, 230, 253, " + (0.35 * (1 - t)) + ")");
         bgG.addColorStop(1, "rgba(2, 132, 199, 0)");
         g.fillStyle = bgG;
         g.beginPath();
@@ -998,8 +997,8 @@
         g.fill();
 
         if (t < 0.35) {
-          const rCore = 16 * (1 - t * 0.7);
-          g.fillStyle = "#38bdf8";
+          const rCore = 22 * (1 - t * 0.75);
+          g.fillStyle = "rgba(56, 189, 248, " + (0.95 * (1 - t * 1.5)) + ")";
           g.beginPath();
           for (let a = 0; a < 6; a++) {
             const ang = a * Math.PI / 3;
@@ -1009,50 +1008,52 @@
           }
           g.closePath();
           g.fill();
-          g.strokeStyle = "#bae6fd";
-          g.lineWidth = 1.5;
-          g.stroke();
-          g.strokeStyle = "#ffffff";
-          g.lineWidth = 2;
-          g.beginPath();
-          g.moveTo(cx, cy - rCore * 0.8);
-          g.lineTo(cx, cy + rCore * 0.8);
-          g.moveTo(cx - rCore * 0.7, cy);
-          g.lineTo(cx + rCore * 0.7, cy);
+          g.strokeStyle = "rgba(255, 255, 255, " + (1 - t * 1.5) + ")";
+          g.lineWidth = 2.4;
           g.stroke();
         }
 
-        const numShards = 6;
-        const dShard = 6 + Math.pow(t, 0.75) * 36;
-        const alphaShard = Math.max(0, 1 - Math.pow(t, 1.8));
-        g.fillStyle = "rgba(56, 189, 248, " + alphaShard + ")";
-        g.strokeStyle = "rgba(255, 255, 255, " + alphaShard + ")";
-        g.lineWidth = 1.5;
+        const numShards = 8;
+        const dShard = 8 + Math.pow(t, 0.7) * 46;
         for (let s = 0; s < numShards; s++) {
-          const ang = s * (Math.PI * 2 / numShards) + 0.25;
+          const ang = s * (Math.PI * 2 / numShards) + 0.22;
           const sx = cx + Math.cos(ang) * dShard;
           const sy = cy + Math.sin(ang) * dShard;
-          const rot = ang + t * 2.5;
-          const sz = Math.max(3, 10 * (1 - t * 0.55));
+          const rot = ang + t * 3.4;
+          const sz = Math.max(3, 11 * (1 - t * 0.55));
           g.save();
           g.translate(sx, sy);
           g.rotate(rot);
           g.beginPath();
-          g.moveTo(0, -sz * 1.2);
-          g.lineTo(sz * 0.55, 0);
-          g.lineTo(0, sz * 0.8);
-          g.lineTo(-sz * 0.55, 0);
+          g.moveTo(0, -sz * 1.3);
+          g.lineTo(sz * 0.6, 0);
+          g.lineTo(0, sz * 0.85);
+          g.lineTo(-sz * 0.6, 0);
           g.closePath();
+          g.fillStyle = "rgba(56, 189, 248, " + alpha + ")";
           g.fill();
+          g.beginPath();
+          g.moveTo(0, -sz * 1.3);
+          g.lineTo(sz * 0.6, 0);
+          g.lineTo(0, sz * 0.85);
+          g.closePath();
+          g.fillStyle = "rgba(224, 242, 254, " + (0.9 * alpha) + ")";
+          g.fill();
+          g.strokeStyle = "rgba(255, 255, 255, " + alpha + ")";
+          g.lineWidth = 1.6;
           g.stroke();
           g.restore();
         }
 
-        const ringR = 8 + t * 38;
-        g.strokeStyle = "rgba(186, 230, 253, " + (0.8 * (1 - t)) + ")";
-        g.lineWidth = 2;
+        g.strokeStyle = "rgba(186, 230, 253, " + (0.85 * (1 - t)) + ")";
+        g.lineWidth = 2.5;
         g.beginPath();
-        g.arc(cx, cy, ringR, 0, Math.PI * 2);
+        g.arc(cx, cy, 10 + t * 48, 0, Math.PI * 2);
+        g.stroke();
+        g.strokeStyle = "rgba(255, 255, 255, " + (0.95 * (1 - t)) + ")";
+        g.lineWidth = 1.8;
+        g.beginPath();
+        g.arc(cx, cy, 6 + t * 34, 0, Math.PI * 2);
         g.stroke();
 
       } else if (kJenis === "vortex") {
@@ -1579,11 +1580,11 @@
         }
 
       } else if (kJenis === "crush") {
-        const alpha = Math.max(0, 1 - Math.pow(t, 2));
-        const rDust = 8 + t * 32;
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const rDust = 10 + t * 46;
 
-        g.strokeStyle = "rgba(217, 119, 6, " + (0.75 * alpha) + ")";
-        g.lineWidth = 3;
+        g.strokeStyle = "rgba(217, 119, 6, " + (0.85 * alpha) + ")";
+        g.lineWidth = 3.5;
         g.beginPath();
         g.arc(cx, cy, rDust, 0, Math.PI * 2);
         g.stroke();
@@ -1591,25 +1592,43 @@
         const numChunks = 6;
         for (let k = 0; k < numChunks; k++) {
           const ang = k * (Math.PI * 2 / numChunks) + 0.3;
-          const distK = 6 + Math.pow(t, 0.7) * 36;
+          const distK = 8 + Math.pow(t, 0.65) * 44;
           const kx = cx + Math.cos(ang) * distK;
           const ky = cy + Math.sin(ang) * distK;
-          const sz = Math.max(2, 6.5 * (1 - t * 0.6));
+          const sz = Math.max(3, 9 * (1 - t * 0.5));
           g.save();
           g.translate(kx, ky);
-          g.rotate(ang + t * 4);
+          g.rotate(ang + t * 4.2);
           g.fillStyle = "rgba(120, 53, 15, " + alpha + ")";
           g.beginPath();
-          g.moveTo(0, -sz);
-          g.lineTo(sz, -sz * 0.3);
-          g.lineTo(sz * 0.7, sz);
-          g.lineTo(-sz * 0.6, sz * 0.8);
+          g.moveTo(0, -sz * 1.1);
+          g.lineTo(sz, -sz * 0.2);
+          g.lineTo(sz * 0.75, sz);
+          g.lineTo(-sz * 0.65, sz * 0.85);
           g.closePath();
           g.fill();
-          g.strokeStyle = "rgba(245, 158, 11, " + (0.9 * alpha) + ")";
-          g.lineWidth = 1.2;
+          g.fillStyle = "rgba(245, 158, 11, " + (0.9 * alpha) + ")";
+          g.beginPath();
+          g.moveTo(0, -sz * 1.1);
+          g.lineTo(sz, -sz * 0.2);
+          g.lineTo(0, sz * 0.4);
+          g.closePath();
+          g.fill();
+          g.strokeStyle = "rgba(254, 240, 138, " + (0.95 * alpha) + ")";
+          g.lineWidth = 1.6;
           g.stroke();
           g.restore();
+        }
+
+        for (let db = 0; db < 8; db++) {
+          const aDb = db * (Math.PI * 2 / 8) + 0.5;
+          const dDb = 10 + t * 48;
+          const grav = Math.pow(t, 2) * 14;
+          const dbx = cx + Math.cos(aDb) * dDb;
+          const dby = cy + Math.sin(aDb) * dDb + grav;
+          const dbSz = Math.max(1.5, 3.5 * (1 - t * 0.6));
+          g.fillStyle = "rgba(245, 158, 11, " + alpha + ")";
+          g.fillRect(dbx - dbSz, dby - dbSz, dbSz * 2, dbSz * 2);
         }
 
       } else if (kJenis === "swirl_api") {
@@ -1679,30 +1698,64 @@
           g.restore();
         }
 
-      } else if (kJenis === "flame_corrosion") {
-        const alpha = Math.max(0, 1 - Math.pow(t, 2));
-        const rCore = 6 + Math.sin(t * Math.PI) * 14;
-
-        const gCore = g.createRadialGradient(cx, cy, 2, cx, cy, rCore + 8);
-        gCore.addColorStop(0, "rgba(59, 7, 100, " + alpha + ")");
-        gCore.addColorStop(0.6, "rgba(168, 85, 247, " + (0.85 * alpha) + ")");
-        gCore.addColorStop(1, "rgba(236, 72, 153, 0)");
-        g.fillStyle = gCore;
+      } else if (kJenis === "ignis" || kJenis === "flame_corrosion") {
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const rot = t * Math.PI * 3.5;
+        const rBloom = 12 + t * 44;
+        const gBloom = g.createRadialGradient(cx, cy, 2, cx, cy, rBloom);
+        gBloom.addColorStop(0, "rgba(244, 63, 94, " + (0.6 * alpha) + ")");
+        gBloom.addColorStop(0.5, "rgba(147, 51, 234, " + (0.35 * alpha) + ")");
+        gBloom.addColorStop(1, "rgba(0, 0, 0, 0)");
+        g.fillStyle = gBloom;
         g.beginPath();
-        g.arc(cx, cy, rCore + 8, 0, Math.PI * 2);
+        g.arc(cx, cy, rBloom, 0, Math.PI * 2);
         g.fill();
 
-        for (let f = 0; f < 5; f++) {
-          const aF = f * (Math.PI * 2 / 5) + t * 2.5;
-          const dF = rCore + t * 22;
-          const fx = cx + Math.cos(aF) * dF;
-          const fy = cy + Math.sin(aF) * dF - t * 16;
-          const fR = Math.max(2, 5 * (1 - t * 0.7));
-          g.fillStyle = "rgba(236, 72, 153, " + (0.9 * alpha) + ")";
+        for (let f = 0; f < 4; f++) {
+          const aF = rot + f * (Math.PI / 2);
+          g.save();
+          g.translate(cx, cy);
+          g.rotate(aF);
           g.beginPath();
-          g.arc(fx, fy, fR, 0, Math.PI * 2);
+          const rIn = 6 + (1 - t) * 6;
+          const rOut = 14 + Math.sin(t * Math.PI) * 36;
+          g.arc(0, 0, rOut, 0, Math.PI * 0.65, false);
+          g.arc(0, 0, rIn, Math.PI * 0.65, 0, true);
+          g.closePath();
+          g.fillStyle = f % 2 === 0 ? "rgba(244, 63, 94, " + (0.9 * alpha) + ")" : "rgba(168, 85, 247, " + (0.85 * alpha) + ")";
+          g.fill();
+          g.strokeStyle = "rgba(254, 205, 211, " + (0.95 * alpha) + ")";
+          g.lineWidth = 1.8;
+          g.stroke();
+          g.restore();
+        }
+
+        const rCore = Math.max(3, 16 * Math.sin(t * Math.PI * 0.85));
+        g.fillStyle = "rgba(30, 10, 40, " + alpha + ")";
+        g.beginPath();
+        g.arc(cx, cy, rCore, 0, Math.PI * 2);
+        g.fill();
+        g.strokeStyle = "rgba(251, 113, 133, " + (0.95 * alpha) + ")";
+        g.lineWidth = 2.4;
+        g.stroke();
+
+        for (let sp = 0; sp < 6; sp++) {
+          const aSp = rot * 1.5 + sp * (Math.PI * 2 / 6);
+          const dSp = rCore + 4 + t * 38;
+          const sx = cx + Math.cos(aSp) * dSp;
+          const sy = cy + Math.sin(aSp) * dSp - t * 10;
+          const sR = Math.max(1.5, 4.5 * (1 - t * 0.6));
+          g.fillStyle = sp % 2 === 0 ? "rgba(244, 63, 94, " + alpha + ")" : "rgba(192, 132, 252, " + alpha + ")";
+          g.beginPath();
+          g.arc(sx, sy, sR, 0, Math.PI * 2);
           g.fill();
         }
+
+        g.strokeStyle = "rgba(244, 63, 94, " + (0.75 * (1 - t)) + ")";
+        g.lineWidth = 2.5;
+        g.beginPath();
+        g.arc(cx, cy, 10 + t * 48, 0, Math.PI * 2);
+        g.stroke();
 
       } else if (kJenis === "volt_corrosion") {
         const alpha = Math.max(0, 1 - Math.pow(t, 2));
@@ -1780,6 +1833,172 @@
           g.fillRect(gx - 2, gy - 2, 4, 4);
         }
         g.restore();
+
+      } else if (kJenis === "assault") {
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const slashL = 22 + Math.sin(Math.min(1, t * 1.4) * Math.PI) * 44;
+
+        g.save();
+        g.translate(cx, cy);
+        g.strokeStyle = "rgba(255, 87, 34, " + alpha + ")";
+        g.lineWidth = 5.5;
+        g.lineCap = "round";
+        g.beginPath();
+        g.moveTo(-slashL * 0.72, -slashL * 0.72);
+        g.lineTo(slashL * 0.72, slashL * 0.72);
+        g.stroke();
+        g.beginPath();
+        g.moveTo(slashL * 0.72, -slashL * 0.72);
+        g.lineTo(-slashL * 0.72, slashL * 0.72);
+        g.stroke();
+
+        g.strokeStyle = "rgba(255, 255, 255, " + (0.95 * alpha) + ")";
+        g.lineWidth = 2.2;
+        g.beginPath();
+        g.moveTo(-slashL * 0.65, -slashL * 0.65);
+        g.lineTo(slashL * 0.65, slashL * 0.65);
+        g.moveTo(slashL * 0.65, -slashL * 0.65);
+        g.lineTo(-slashL * 0.65, slashL * 0.65);
+        g.stroke();
+        g.restore();
+
+        const rBoom = 8 + Math.sin(Math.min(1, t * 1.5) * Math.PI * 0.5) * 36;
+        const gBoom = g.createRadialGradient(cx, cy, 2, cx, cy, rBoom);
+        gBoom.addColorStop(0, "rgba(255, 255, 255, " + (0.95 * alpha) + ")");
+        gBoom.addColorStop(0.35, "rgba(255, 87, 34, " + (0.85 * alpha) + ")");
+        gBoom.addColorStop(0.7, "rgba(220, 38, 38, " + (0.45 * alpha) + ")");
+        gBoom.addColorStop(1, "rgba(0, 0, 0, 0)");
+        g.fillStyle = gBoom;
+        g.beginPath();
+        g.arc(cx, cy, rBoom, 0, Math.PI * 2);
+        g.fill();
+
+        for (let em = 0; em < 8; em++) {
+          const aEm = (em % 4) * (Math.PI / 2) + Math.PI / 4 + (Math.floor(em / 4) === 0 ? 0.15 : -0.15);
+          const dEm = 12 + t * 44;
+          const ex = cx + Math.cos(aEm) * dEm;
+          const ey = cy + Math.sin(aEm) * dEm - t * 8;
+          const eSz = Math.max(1.5, 3.5 * (1 - t));
+          g.fillStyle = "rgba(254, 240, 138, " + alpha + ")";
+          g.fillRect(ex - eSz, ey - eSz, eSz * 2, eSz * 2);
+        }
+
+      } else if (kJenis === "discharge") {
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const coreR = Math.max(3, (1 - t) * 16);
+
+        g.fillStyle = "rgba(255, 255, 255, " + alpha + ")";
+        g.beginPath();
+        g.arc(cx, cy, coreR, 0, Math.PI * 2);
+        g.fill();
+        g.fillStyle = "rgba(250, 204, 21, " + (0.85 * alpha) + ")";
+        g.beginPath();
+        g.arc(cx, cy, coreR * 1.5, 0, Math.PI * 2);
+        g.fill();
+
+        const numBolts = 8;
+        for (let b = 0; b < numBolts; b++) {
+          const ang = b * (Math.PI * 2 / numBolts) + 0.2;
+          const lenB = 12 + t * 46;
+          const p1x = cx + Math.cos(ang - 0.2) * (lenB * 0.35);
+          const p1y = cy + Math.sin(ang - 0.2) * (lenB * 0.35);
+          const p2x = cx + Math.cos(ang + 0.2) * (lenB * 0.7);
+          const p2y = cy + Math.sin(ang + 0.2) * (lenB * 0.7);
+          const ex = cx + Math.cos(ang) * lenB;
+          const ey = cy + Math.sin(ang) * lenB;
+
+          g.strokeStyle = "rgba(250, 204, 21, " + alpha + ")";
+          g.lineWidth = Math.max(1.5, 3.0 * (1 - t * 0.6));
+          g.beginPath();
+          g.moveTo(cx, cy);
+          g.lineTo(p1x, p1y);
+          g.lineTo(p2x, p2y);
+          g.lineTo(ex, ey);
+          g.stroke();
+
+          g.strokeStyle = "rgba(255, 255, 255, " + (0.95 * alpha) + ")";
+          g.lineWidth = Math.max(1, 1.6 * (1 - t * 0.6));
+          g.beginPath();
+          g.moveTo(cx, cy);
+          g.lineTo(p1x, p1y);
+          g.lineTo(p2x, p2y);
+          g.lineTo(ex, ey);
+          g.stroke();
+        }
+
+        const rRing = 10 + Math.sin(t * Math.PI * 0.8) * 44;
+        g.save();
+        g.translate(cx, cy);
+        g.rotate(t * 2);
+        g.strokeStyle = "rgba(250, 204, 21, " + (0.8 * alpha) + ")";
+        g.lineWidth = 2.0;
+        g.beginPath();
+        for (let h = 0; h < 6; h++) {
+          const aH = h * (Math.PI / 3);
+          const hx = Math.cos(aH) * rRing;
+          const hy = Math.sin(aH) * rRing;
+          if (h === 0) g.moveTo(hx, hy); else g.lineTo(hx, hy);
+        }
+        g.closePath();
+        g.stroke();
+        g.restore();
+
+      } else if (kJenis === "thorn") {
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const rot = t * Math.PI * 2.2;
+
+        for (let v = 0; v < 4; v++) {
+          const aV = rot + v * (Math.PI / 2);
+          const rMax = 12 + Math.sin(t * Math.PI) * 42;
+          const mx = cx + Math.cos(aV + 0.4) * (rMax * 0.6);
+          const my = cy + Math.sin(aV + 0.4) * (rMax * 0.6);
+          const ex = cx + Math.cos(aV) * rMax;
+          const ey = cy + Math.sin(aV) * rMax;
+
+          g.strokeStyle = "rgba(22, 163, 74, " + (0.95 * alpha) + ")";
+          g.lineWidth = 3.2;
+          g.beginPath();
+          g.moveTo(cx, cy);
+          g.quadraticCurveTo(mx, my, ex, ey);
+          g.stroke();
+
+          g.strokeStyle = "rgba(134, 239, 172, " + (0.9 * alpha) + ")";
+          g.lineWidth = 1.4;
+          g.stroke();
+
+          const tx = cx + Math.cos(aV + 0.2) * (rMax * 0.5);
+          const ty = cy + Math.sin(aV + 0.2) * (rMax * 0.5);
+          const thAng = aV + Math.PI / 2;
+          const thLen = 6 * (1 - t * 0.4);
+          g.fillStyle = "rgba(34, 197, 94, " + alpha + ")";
+          g.beginPath();
+          g.moveTo(tx, ty);
+          g.lineTo(tx + Math.cos(thAng) * thLen, ty + Math.sin(thAng) * thLen);
+          g.lineTo(tx + Math.cos(aV) * (thLen * 0.8), ty + Math.sin(aV) * (thLen * 0.8));
+          g.closePath();
+          g.fill();
+          g.strokeStyle = "rgba(220, 252, 231, " + alpha + ")";
+          g.lineWidth = 1.0;
+          g.stroke();
+        }
+
+        for (let sp = 0; sp < 10; sp++) {
+          const aSp = sp * (Math.PI * 2 / 10) + t * 2.0;
+          const dSp = 8 + t * 40;
+          const sx = cx + Math.cos(aSp) * dSp;
+          const sy = cy + Math.sin(aSp) * dSp - t * 8;
+          const sR = Math.max(1.5, 3.5 * (1 - t * 0.5));
+          g.fillStyle = sp % 2 === 0 ? "rgba(134, 239, 172, " + alpha + ")" : "rgba(255, 255, 255, " + alpha + ")";
+          g.beginPath();
+          g.arc(sx, sy, sR, 0, Math.PI * 2);
+          g.fill();
+        }
+
+        g.strokeStyle = "rgba(34, 197, 94, " + (0.75 * (1 - t)) + ")";
+        g.lineWidth = 2.4;
+        g.beginPath();
+        g.arc(cx, cy, 8 + t * 46, 0, Math.PI * 2);
+        g.stroke();
       }
 
       frames.push(cs);
@@ -1789,9 +2008,11 @@
   }
 
   function getReactionSpriteFrames(jenis) {
-    const k = String(jenis || "vortex").toLowerCase();
+    let k = String(jenis || "vortex").toLowerCase();
+    if (k === "flame_corrosion") k = "ignis";
+    if (k === "shatter") k = "shatters";
     if (!LOBBY_SPRITE_CACHE[k]) {
-      LOBBY_SPRITE_CACHE[k] = bakeReactionSpriteFrames(k, 96, 96);
+      LOBBY_SPRITE_CACHE[k] = bakeReactionSpriteFrames(k, 128, 128);
     }
     return LOBBY_SPRITE_CACHE[k];
   }
