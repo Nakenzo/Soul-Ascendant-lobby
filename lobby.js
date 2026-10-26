@@ -210,14 +210,82 @@
 
 (function() {
   const ELEMENTS = [
-    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 440, y: 120, labelX: 0, labelY: -46 },
-    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 690, y: 240, labelX: 48, labelY: -20 },
-    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 752, y: 511, labelX: 52, labelY: 4 },
-    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 579, y: 728, labelX: 0, labelY: 46 },
-    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 301, y: 728, labelX: 0, labelY: 46 },
-    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 128, y: 511, labelX: -52, labelY: 4 },
-    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 190, y: 240, labelX: -48, labelY: -20 },
-    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 440, y: 440, labelX: 0, labelY: -46 }
+    { id: "nature", name: "Nature", color: "#22c55e", icon: "assets/element-nature.svg", x: 440, y: 175, labelX: 0, labelY: 34, condId: "thorny" },
+    { id: "tanah", name: "Tanah", color: "#d97706", icon: "assets/element-tanah.svg", x: 647, y: 275, labelX: 42, labelY: 20, condId: "crystalize" },
+    { id: "nihil", name: "Nihil", color: "#a855f7", icon: "assets/element-nihil.svg", x: 698, y: 499, labelX: 46, labelY: 24 },
+    { id: "es", name: "Es", color: "#38bdf8", icon: "assets/element-es.svg", x: 555, y: 679, labelX: 42, labelY: -20, condId: "freeze" },
+    { id: "api", name: "Api", color: "#f97316", icon: "assets/element-api.svg", x: 325, y: 679, labelX: -42, labelY: -20, condId: "burn" },
+    { id: "petir", name: "Petir", color: "#facc15", icon: "assets/element-petir.svg", x: 182, y: 499, labelX: -46, labelY: 24, condId: "paralyze" },
+    { id: "angin", name: "Angin", color: "#34d399", icon: "assets/element-angin.svg", x: 233, y: 275, labelX: -42, labelY: 20 },
+    { id: "fisik", name: "Fisik", color: "#cbd5e1", icon: "assets/element-fisik.svg", x: 440, y: 440, labelX: 0, labelY: -44, isCenter: true }
+  ];
+
+  const CONDITIONS = [
+    {
+      id: "freeze",
+      elementId: "es",
+      name: "Freeze",
+      label: "FREEZE",
+      color: "#38bdf8",
+      x: 603,
+      y: 778,
+      reactionId: "shatters",
+      anim: "shatters",
+      desc: "Musuh membeku di tempat untuk beberapa saat dan tidak dapat bergerak maupun menyerang.",
+      tip: "Picu status Freeze dengan menimbun gauge elemen Es. Hantam musuh yang membeku dengan serangan Fisik untuk memicu reaksi fatal SHATTERS (2.5x Burst Damage)!"
+    },
+    {
+      id: "burn",
+      elementId: "api",
+      name: "Burn",
+      label: "BURN",
+      color: "#f97316",
+      x: 277,
+      y: 778,
+      reactionId: "assault",
+      anim: "assault",
+      desc: "Musuh terbakar hebat dan menerima luka bakar berkala (DoT) secara terus-menerus.",
+      tip: "Picu status Burn dengan serangan elemen Api. Tebas musuh yang sedang terbakar dengan Fisik untuk meledakkan seluruh sisa luka bakar seketika (ASSAULT)!"
+    },
+    {
+      id: "paralyze",
+      elementId: "petir",
+      name: "Paralyze",
+      label: "PARALYZE",
+      color: "#facc15",
+      x: 74,
+      y: 523,
+      reactionId: "discharge",
+      anim: "discharge",
+      desc: "Musuh lumpuh akibat sengatan listrik bertegangan tinggi dan gerakannya terhenti.",
+      tip: "Picu status Paralyze dengan serangan elemen Petir. Hantam dengan serangan Fisik untuk melepaskan sengatan listrik rantai mematikan ke musuh sekitar (DISCHARGE)!"
+    },
+    {
+      id: "crystalize",
+      elementId: "tanah",
+      name: "Crystalize",
+      label: "CRYSTALIZE",
+      color: "#d97706",
+      x: 733,
+      y: 206,
+      reactionId: "crush",
+      anim: "crush",
+      desc: "Musuh terlapisi kerak kristal padat yang mereduksi mobilitas dan membuatnya rapuh.",
+      tip: "Picu status Crystalize dengan gauge elemen Tanah. Hantam dengan serangan Fisik untuk meremukkan kristal sekaligus memberi stun tambahan (CRUSH)!"
+    },
+    {
+      id: "thorny",
+      elementId: "nature",
+      name: "Thorny",
+      label: "THORNY",
+      color: "#22c55e",
+      x: 440,
+      y: 65,
+      reactionId: "bleeding_nature",
+      anim: "thorn",
+      desc: "Musuh terjerat sulur akar hayati yang melumpuhkan gerakan dan memberikan damage DoT berkala setiap 1 detik sekali.",
+      tip: "Picu status Condition Thorny dengan elemen Nature. Tebas musuh yang terjerat dengan serangan Fisik untuk memicu reaksi BLEEDING, atau tembak dengan Nihil untuk memicu POISONED!"
+    }
   ];
 
   const REACTIONS = [
@@ -225,13 +293,71 @@
       id: "shatters",
       e1: "fisik",
       e2: "es",
+      condId: "freeze",
       name: "SHATTERS",
       label: "SHATTERS x2.5",
-      badgeT: 0.50,
-      cat: "fisik",
+      formula: "Fisik + Condition (Freeze)",
+      badgeT: 0.65,
+      cat: "condition",
       anim: "shatters",
-      desc: "Pecahan es fatal saat musuh yang membeku total (Freeze) dihantam serangan Fisik. Menimbulkan burst damage kritis 2.5x lipat berskala EM dan memecahkan kebekuan musuh.",
-      tip: "Taktik: Timbun Elemental Gauge es sampai musuh membeku (Freeze), lalu hantam dengan serangan fisik untuk burst damage puncak."
+      desc: "Pecahan es fatal saat musuh yang membeku total dalam status Condition (Freeze) dihantam serangan Fisik. Menimbulkan burst damage kritis 2.5x lipat berskala EM dan memecahkan kebekuan musuh.",
+      tip: "Taktik: Timbun Elemental Gauge es sampai musuh masuk status Condition (Freeze), lalu hantam dengan serangan Fisik untuk burst damage puncak."
+    },
+    {
+      id: "assault",
+      e1: "fisik",
+      e2: "api",
+      condId: "burn",
+      name: "ASSAULT",
+      label: "ASSAULT!",
+      formula: "Fisik + Condition (Burn)",
+      badgeT: 0.65,
+      cat: "condition",
+      anim: "assault",
+      desc: "Serangan tebasan Fisik saat musuh terkena status Condition (Burn). Memberikan damage tebasan beruntun 1.8x lipat ditambah letupan seluruh sisa damage bakar seketika.",
+      tip: "Taktik: Bakar musuh hingga masuk Condition (Burn), lalu timpa dengan serangan Fisik untuk meletuskan seluruh sisa DoT api sekaligus."
+    },
+    {
+      id: "discharge",
+      e1: "fisik",
+      e2: "petir",
+      condId: "paralyze",
+      name: "DISCHARGE",
+      label: "DISCHARGE!",
+      formula: "Fisik + Condition (Paralyze)",
+      badgeT: 0.65,
+      cat: "condition",
+      anim: "discharge",
+      desc: "Pelepasan muatan listrik statis dahsyat saat musuh yang lumpuh Condition (Paralyze) ditimpa serangan Fisik. Menghasilkan bonus damage 1.9x lipat dan memancarkan sengatan listrik rantai (chain lightning) ke musuh lain dalam radius 180px.",
+      tip: "Taktik: Timbun gauge listrik hingga musuh masuk Condition (Paralyze), lalu hantam dengan serangan Fisik untuk menyengat gerombolan musuh sekitar."
+    },
+    {
+      id: "crush",
+      e1: "fisik",
+      e2: "tanah",
+      condId: "crystalize",
+      name: "CRUSH",
+      label: "CRUSH!",
+      formula: "Fisik + Condition (Crystalize)",
+      badgeT: 0.65,
+      cat: "condition",
+      anim: "crush",
+      desc: "Hantaman remuk kinetik pada musuh yang mengalami efek Condition (Crystalize). Menghasilkan damage remuk 2.2x lipat berskala EM dan memberikan stun berat 0.4 detik pada musuh.",
+      tip: "Taktik: Penuhi gauge elemen Tanah hingga musuh ter-Crystalize, lalu hantam dengan Fisik untuk menghentikan gerak musuh."
+    },
+    {
+      id: "bleeding_nature",
+      e1: "fisik",
+      e2: "nature",
+      condId: "thorny",
+      name: "BLEEDING",
+      label: "BLEEDING!",
+      formula: "Fisik + Condition (Thorny)",
+      badgeT: 0.65,
+      cat: "condition",
+      anim: "bleeding",
+      desc: "Luka robek duri alami Condition (Thorny) memicu pendarahan hebat berkepanjangan selama 4 detik saat diperdalam tebasan Fisik (tick tiap 0.35s berskala damage awal & EM).",
+      tip: "Taktik: Terapkan status Condition Thorny lalu hantam dengan Fisik dan jaga jarak selagi musuh terkikis darahnya."
     },
     {
       id: "vortex",
@@ -239,6 +365,7 @@
       e2: "angin",
       name: "VORTEX",
       label: "VORTEX",
+      formula: "Fisik + Angin",
       badgeT: 0.50,
       cat: "fisik",
       anim: "vortex",
@@ -246,77 +373,60 @@
       tip: "Taktik: Kumpulkan gerombolan monster ke satu titik sebelum melancarkan serangan area besar."
     },
     {
-      id: "assault",
+      id: "void_corrosion_phys",
       e1: "fisik",
-      e2: "api",
-      name: "ASSAULT",
-      label: "ASSAULT!",
-      badgeT: 0.45,
-      cat: "fisik",
-      anim: "assault",
-      desc: "Serangan tebasan fisik saat musuh terkena status Burn. Memberikan damage tebasan beruntun 1.8x lipat ditambah seluruh sisa damage bakar seketika.",
-      tip: "Taktik: Bakar musuh hingga terbakar (Burn), lalu timpa dengan serangan fisik untuk meletuskan seluruh sisa DoT api sekaligus."
-    },
-    {
-      id: "discharge",
-      e1: "fisik",
-      e2: "petir",
-      name: "DISCHARGE",
-      label: "DISCHARGE!",
+      e2: "nihil",
+      name: "VOID CORROSION",
+      label: "VOID CORR",
+      formula: "Fisik + Nihil",
       badgeT: 0.50,
       cat: "fisik",
-      anim: "discharge",
-      desc: "Pelepasan muatan listrik statis dahsyat saat musuh yang lumpuh (Paralyze) ditimpa serangan fisik. Menghasilkan bonus damage 1.9x lipat dan memancarkan sengatan listrik rantai (chain lightning) ke musuh lain dalam radius 180px.",
-      tip: "Taktik: Timbun gauge listrik hingga musuh mengalami Paralyze, lalu hantam dengan serangan fisik untuk menyengat gerombolan musuh sekitar."
-    },
-    {
-      id: "bleeding_nature",
-      e1: "fisik",
-      e2: "nature",
-      name: "BLEEDING",
-      label: "BLEEDING!",
-      badgeT: 0.50,
-      cat: "fisik",
-      anim: "bleeding",
-      desc: "Luka robek duri alami memicu pendarahan hebat berkepanjangan selama 4 detik (tick tiap 0.35s berskala damage awal & EM).",
-      tip: "Taktik: Terapkan efek bleed lalu jaga jarak selagi musuh terkikis darahnya."
-    },
-    {
-      id: "crush",
-      e1: "tanah",
-      e2: "fisik",
-      name: "CRUSH",
-      label: "CRUSH!",
-      badgeT: 0.50,
-      cat: "tanah",
-      anim: "crush",
-      desc: "Hantaman remuk kinetik pada musuh yang mengalami efek Crystalize. Menghasilkan damage remuk 2.2x lipat berskala EM dan memberikan stun berat 0.4 detik pada musuh.",
-      tip: "Taktik: Penuhi gauge elemen Tanah hingga musuh ter-Crystalize, lalu hantam dengan fisik untuk menghentikan gerak musuh."
-    },
-    {
-      id: "enchant_corrosion",
-      e1: "nihil",
-      e2: "fisik",
-      name: "ENCHANT CORROSION",
-      label: "VOID ENCHANT",
-      badgeT: 0.50,
-      cat: "nihil",
       anim: "void_corrosion",
-      desc: "Skill fisik memicu pasif buff pelapisan korosi selama 5 detik untuk seluruh serangan karakter.",
-      tip: "Taktik: Aktifkan skill fisik pada musuh void, lalu serang bebas dengan base attack."
+      desc: "Hantaman fisik berpadu energi kehampaan Nihil yang mengikis daya tahan musuh dan memberikan DoT korosi kosmis selama 4 detik.",
+      tip: "Taktik: Kombinasikan tebasan Fisik dengan elemen Nihil untuk merontokkan pertahanan musuh elit secara stabil."
     },
 
     {
       id: "melt",
       e1: "api",
       e2: "es",
+      condId: "freeze",
       name: "MELT",
       label: "MELT x2.0",
+      formula: "Api + Condition (Freeze)",
+      badgeT: 0.50,
+      cat: "condition",
+      anim: "melt",
+      desc: "Peleburan panas ekstrem saat serangan Api mengenai musuh yang sedang mengalami status Condition (Freeze). Melipatgandakan damage serangan menjadi 2.0x lipat instan dan mencairkan kebekuan.",
+      tip: "Taktik: Bekukan musuh dengan elemen Es hingga masuk status Condition Freeze, lalu sambut dengan kobaran Api untuk memicu peleburan damage kritis 2.0x lipat!"
+    },
+    {
+      id: "poisoned",
+      e1: "nihil",
+      e2: "nature",
+      condId: "thorny",
+      name: "POISONED",
+      label: "POISONED!",
+      formula: "Nihil + Condition (Thorny)",
+      badgeT: 0.50,
+      cat: "condition",
+      anim: "plague_corrosion",
+      desc: "Reaksi racun hampa mematikan saat serangan elemen Nihil mengenai musuh yang terjerat status Condition (Thorny). Meracuni musuh dengan racun biologis korosif yang meremukkan defense sebesar 35% dan DoT racun per detik.",
+      tip: "Taktik: Jerat gerombolan musuh dengan status Thorny dari Nature, lalu hujani dengan proyektil Nihil untuk memicu wabah racun korosif area!"
+    },
+
+    {
+      id: "termoshock",
+      e1: "api",
+      e2: "es",
+      name: "TERMO SHOCK",
+      label: "TERMO SHOCK",
+      formula: "Api + Es",
       badgeT: 0.50,
       cat: "energi",
       anim: "melt",
-      desc: "Peleburan panas ekstrem yang melipatgandakan damage serangan menjadi 2.0x lipat instan.",
-      tip: "Taktik: Dinginkan musuh dengan panah es Kenzro lalu sambut dengan sabit api Vender untuk damage puncak."
+      desc: "Benturan fluktuasi suhu ekstrem antara panas api dan dingin es yang menghasilkan gelombang kejut termal instan dengan bonus damage elemental.",
+      tip: "Taktik: Tembakkan proyektil es dan api secara bergantian secara cepat untuk memicu letupan kejut suhu beruntun."
     },
     {
       id: "overload",
@@ -576,15 +686,20 @@
   const inspAnimCanvas = document.getElementById("reactionSpritePreview");
 
   let selectedElementId = "fisik";
-  let selectedReactionId = "shatter";
+  let selectedReactionId = "shatters";
+  let selectedConditionId = null;
   let activeFilter = "all";
-  let currentAnimReaction = "shatter";
+  let currentAnimReaction = "shatters";
   let spriteAnimProgress = 0;
   let lastAnimTime = performance.now();
   const LOBBY_SPRITE_CACHE = {};
 
   function getElementById(id) {
     return ELEMENTS.find(function(e) { return e.id === id; });
+  }
+
+  function getConditionById(id) {
+    return CONDITIONS.find(function(c) { return c.id === id; });
   }
 
   function getReactionById(id) {
@@ -605,10 +720,23 @@
       const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
       grad.setAttribute("id", "cable-grad-" + r.id);
       grad.setAttribute("gradientUnits", "userSpaceOnUse");
-      grad.setAttribute("x1", e1.x.toString());
-      grad.setAttribute("y1", e1.y.toString());
-      grad.setAttribute("x2", e2.x.toString());
-      grad.setAttribute("y2", e2.y.toString());
+
+      let p1 = { x: e1.x, y: e1.y };
+      let p2 = { x: e2.x, y: e2.y };
+      let col2 = e2.color;
+
+      if (r.condId) {
+        const cond = getConditionById(r.condId);
+        if (cond) {
+          p2 = { x: cond.x, y: cond.y };
+          col2 = cond.color;
+        }
+      }
+
+      grad.setAttribute("x1", p1.x.toString());
+      grad.setAttribute("y1", p1.y.toString());
+      grad.setAttribute("x2", p2.x.toString());
+      grad.setAttribute("y2", p2.y.toString());
 
       const s1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
       s1.setAttribute("offset", "0%");
@@ -616,7 +744,7 @@
 
       const s2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
       s2.setAttribute("offset", "100%");
-      s2.setAttribute("stop-color", e2.color);
+      s2.setAttribute("stop-color", col2);
 
       grad.appendChild(s1);
       grad.appendChild(s2);
@@ -628,16 +756,44 @@
     const orbitOuter = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     orbitOuter.setAttribute("cx", "440");
     orbitOuter.setAttribute("cy", "440");
-    orbitOuter.setAttribute("r", "320");
+    orbitOuter.setAttribute("r", "375");
     orbitOuter.setAttribute("class", "diagram-orbit-outer");
     svg.appendChild(orbitOuter);
+
+    const orbitMiddle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    orbitMiddle.setAttribute("cx", "440");
+    orbitMiddle.setAttribute("cy", "440");
+    orbitMiddle.setAttribute("r", "265");
+    orbitMiddle.setAttribute("class", "diagram-orbit-middle");
+    svg.appendChild(orbitMiddle);
 
     const orbitInner = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     orbitInner.setAttribute("cx", "440");
     orbitInner.setAttribute("cy", "440");
-    orbitInner.setAttribute("r", "160");
+    orbitInner.setAttribute("r", "140");
     orbitInner.setAttribute("class", "diagram-orbit-inner");
     svg.appendChild(orbitInner);
+
+    const tethersGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    tethersGroup.setAttribute("class", "diagram-tethers-group");
+
+    CONDITIONS.forEach(function(cond) {
+      const parentElem = getElementById(cond.elementId);
+      if (!parentElem) return;
+
+      const tether = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      tether.setAttribute("x1", parentElem.x.toFixed(1));
+      tether.setAttribute("y1", parentElem.y.toFixed(1));
+      tether.setAttribute("x2", cond.x.toFixed(1));
+      tether.setAttribute("y2", cond.y.toFixed(1));
+      tether.setAttribute("class", "cond-tether");
+      tether.setAttribute("data-cond-id", cond.id);
+      tether.setAttribute("data-elem-id", cond.elementId);
+      tether.setAttribute("stroke", cond.color);
+      tethersGroup.appendChild(tether);
+    });
+
+    svg.appendChild(tethersGroup);
 
     const cablesGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     cablesGroup.setAttribute("class", "diagram-cables-group");
@@ -647,23 +803,30 @@
       const e2 = getElementById(r.e2);
       if (!e1 || !e2) return;
 
-      const dx = e2.x - e1.x;
-      const dy = e2.y - e1.y;
+      let p1 = { x: e1.x, y: e1.y, r: e1.id === "fisik" ? 36 : 28 };
+      let p2 = { x: e2.x, y: e2.y, r: 28 };
+
+      if (r.condId) {
+        const cond = getConditionById(r.condId);
+        if (cond) {
+          p2 = { x: cond.x, y: cond.y, r: 18 };
+        }
+      }
+
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist === 0) return;
 
       const ux = dx / dist;
       const uy = dy / dist;
 
-      const r1 = e1.id === "fisik" ? 36 : 30;
-      const r2 = e2.id === "fisik" ? 36 : 30;
+      const sx = p1.x + ux * p1.r;
+      const sy = p1.y + uy * p1.r;
+      const ex = p2.x - ux * p2.r;
+      const ey = p2.y - uy * p2.r;
 
-      const sx = e1.x + ux * r1;
-      const sy = e1.y + uy * r1;
-      const ex = e2.x - ux * r2;
-      const ey = e2.y - uy * r2;
-
-      const isConnected = r.e1 === selectedElementId || r.e2 === selectedElementId;
+      const isConnected = r.e1 === selectedElementId || r.e2 === selectedElementId || (r.condId && selectedElementId === "fisik");
       const isSelected = r.id === selectedReactionId;
 
       const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -671,6 +834,7 @@
       g.setAttribute("data-react-id", r.id);
       g.setAttribute("data-e1", r.e1);
       g.setAttribute("data-e2", r.e2);
+      if (r.condId) g.setAttribute("data-cond-id", r.condId);
 
       const hit = document.createElementNS("http://www.w3.org/2000/svg", "line");
       hit.setAttribute("x1", sx.toFixed(1));
@@ -736,6 +900,66 @@
 
     svg.appendChild(cablesGroup);
 
+    const condsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    condsGroup.setAttribute("class", "diagram-conds-group");
+
+    CONDITIONS.forEach(function(cond) {
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "cond-crest");
+      g.setAttribute("data-cond-id", cond.id);
+      g.setAttribute("data-elem-id", cond.elementId);
+      g.setAttribute("transform", "translate(" + cond.x.toFixed(1) + "," + cond.y.toFixed(1) + ")");
+
+      const hit = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      hit.setAttribute("x", "-40");
+      hit.setAttribute("y", "-14");
+      hit.setAttribute("width", "80");
+      hit.setAttribute("height", "28");
+      hit.setAttribute("fill", "transparent");
+      hit.setAttribute("cursor", "pointer");
+
+      const pill = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      pill.setAttribute("x", "-37");
+      pill.setAttribute("y", "-11");
+      pill.setAttribute("width", "74");
+      pill.setAttribute("height", "22");
+      pill.setAttribute("class", "cond-crest-pill");
+      pill.setAttribute("stroke", cond.color);
+
+      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      dot.setAttribute("cx", "-25");
+      dot.setAttribute("cy", "0");
+      dot.setAttribute("r", "3.2");
+      dot.setAttribute("fill", cond.color);
+
+      const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      txt.setAttribute("class", "cond-crest-text");
+      txt.setAttribute("x", "5");
+      txt.setAttribute("y", "0.5");
+      txt.setAttribute("fill", cond.color);
+      txt.textContent = cond.label;
+
+      const sub = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      sub.setAttribute("class", "cond-crest-sub");
+      sub.setAttribute("x", "0");
+      sub.setAttribute("y", "-15");
+      sub.textContent = "CONDITION";
+
+      g.appendChild(hit);
+      g.appendChild(pill);
+      g.appendChild(dot);
+      g.appendChild(txt);
+      g.appendChild(sub);
+
+      g.addEventListener("click", function() {
+        selectCondition(cond);
+      });
+
+      condsGroup.appendChild(g);
+    });
+
+    svg.appendChild(condsGroup);
+
     const crestsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     crestsGroup.setAttribute("class", "diagram-crests-group");
 
@@ -747,12 +971,12 @@
       g.setAttribute("transform", "translate(" + el.x.toFixed(1) + "," + el.y.toFixed(1) + ")");
 
       const hit = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      hit.setAttribute("r", isCenter ? "40" : "36");
+      hit.setAttribute("r", isCenter ? "40" : "34");
       hit.setAttribute("class", "crest-hit");
 
       const halo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       halo.setAttribute("class", "crest-halo");
-      halo.setAttribute("r", isCenter ? "38" : "33");
+      halo.setAttribute("r", isCenter ? "38" : "31");
       halo.setAttribute("fill", "none");
       halo.setAttribute("stroke", el.color);
       halo.setAttribute("stroke-width", selectedElementId === el.id ? "3.5" : "2");
@@ -761,11 +985,11 @@
 
       const gem = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       gem.setAttribute("class", "crest-gem");
-      gem.setAttribute("r", isCenter ? "30" : "26");
+      gem.setAttribute("r", isCenter ? "30" : "25");
       gem.setAttribute("stroke", el.color);
       gem.setAttribute("stroke-width", selectedElementId === el.id ? "2.6" : "1.8");
 
-      const iconSize = isCenter ? 34 : 30;
+      const iconSize = isCenter ? 34 : 28;
       const icon = document.createElementNS("http://www.w3.org/2000/svg", "image");
       icon.setAttribute("href", el.icon);
       icon.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", el.icon);
@@ -797,8 +1021,119 @@
     svg.appendChild(crestsGroup);
   }
 
+  function selectCondition(cond) {
+    if (!cond) return;
+    selectedConditionId = cond.id;
+    selectedReactionId = null;
+
+    if (cond.anim && typeof updateSpritePreview === "function") {
+      updateSpritePreview(cond.anim);
+    }
+
+    const parentElem = getElementById(cond.elementId);
+
+    if (inspTitle) inspTitle.textContent = "STATUS " + cond.name.toUpperCase();
+    if (inspFormula) {
+      inspFormula.textContent = "Elemental Gauge " + (parentElem ? parentElem.name : "") + " Terpenuhi";
+    }
+    if (inspDesc) inspDesc.textContent = cond.desc;
+    if (inspTip) {
+      inspTip.innerHTML = "<strong>Taktik:</strong> " + cond.tip.replace(/^Taktik:s*/, "");
+    }
+
+    if (inspIcon1 && parentElem) {
+      inspIcon1.src = parentElem.icon;
+      inspIcon1.alt = parentElem.name;
+      inspIcon1.style.display = "";
+    }
+    if (inspIcon2) {
+      inspIcon2.style.display = "none";
+    }
+    const plusSpan = document.querySelector("#inspectorIcons .plus-sign");
+    if (plusSpan) {
+      plusSpan.style.display = "none";
+    }
+
+    let condBadge = document.getElementById("inspCondBadge");
+    if (!condBadge) {
+      condBadge = document.createElement("div");
+      condBadge.id = "inspCondBadge";
+      condBadge.className = "inspector-cond-badge";
+      const inspIconsWrap = document.getElementById("inspectorIcons");
+      if (inspIconsWrap) {
+        inspIconsWrap.appendChild(condBadge);
+      }
+    }
+    if (condBadge) {
+      condBadge.textContent = cond.label;
+      condBadge.style.color = cond.color;
+      condBadge.style.borderColor = cond.color;
+      condBadge.style.boxShadow = "0 0 14px " + cond.color;
+      condBadge.style.display = "inline-flex";
+    }
+
+    if (inspCatBadge) {
+      inspCatBadge.textContent = "STATUS CONDITION (" + cond.name.toUpperCase() + ")";
+    }
+
+    const condPills = document.querySelectorAll(".cond-crest");
+    condPills.forEach(function(cp) {
+      const cpid = cp.getAttribute("data-cond-id");
+      if (cpid === cond.id) {
+        cp.classList.add("active", "selected");
+        cp.classList.remove("dimmed");
+      } else {
+        cp.classList.remove("selected");
+        cp.classList.add("dimmed");
+      }
+    });
+
+    const crests = document.querySelectorAll(".elem-crest");
+    crests.forEach(function(c) {
+      const cid = c.getAttribute("data-id");
+      const isReactingElem = REACTIONS.some(function(r) {
+        return r.condId === cond.id && (r.e1 === cid || r.e2 === cid);
+      });
+      if (cid === cond.elementId || isReactingElem) {
+        c.classList.add("active");
+        c.classList.remove("dimmed");
+      } else {
+        c.classList.remove("active");
+        c.classList.add("dimmed");
+      }
+    });
+
+    const tethers = document.querySelectorAll(".cond-tether");
+    tethers.forEach(function(th) {
+      const thid = th.getAttribute("data-cond-id");
+      if (thid === cond.id) {
+        th.classList.add("active");
+      } else {
+        th.classList.remove("active");
+      }
+    });
+
+    const cables = document.querySelectorAll(".cable-conduit");
+    cables.forEach(function(cb) {
+      const rCond = cb.getAttribute("data-cond-id");
+      if (rCond === cond.id) {
+        cb.classList.add("active");
+        cb.classList.remove("dimmed", "selected");
+      } else {
+        cb.classList.remove("active", "selected");
+        cb.classList.add("dimmed");
+      }
+    });
+
+    const cards = document.querySelectorAll(".reaction-card");
+    cards.forEach(function(c) {
+      c.classList.remove("highlight");
+    });
+  }
+
   function selectElement(id) {
     selectedElementId = id;
+    selectedConditionId = null;
 
     const crests = document.querySelectorAll(".elem-crest");
     crests.forEach(function(c) {
@@ -816,6 +1151,37 @@
           c.classList.add("dimmed");
           c.classList.remove("active");
         }
+      }
+    });
+
+    const condPills = document.querySelectorAll(".cond-crest");
+    condPills.forEach(function(cp) {
+      const cpid = cp.getAttribute("data-cond-id");
+      const celem = cp.getAttribute("data-elem-id");
+      const isReactingWithCond = REACTIONS.some(function(r) {
+        return r.condId === cpid && (r.e1 === id || r.e2 === id);
+      });
+      const isRelated = (id === celem) || isReactingWithCond;
+      if (isRelated) {
+        cp.classList.remove("dimmed", "selected");
+        if (id === celem) cp.classList.add("active");
+      } else {
+        cp.classList.add("dimmed");
+        cp.classList.remove("active", "selected");
+      }
+    });
+
+    const tethers = document.querySelectorAll(".cond-tether");
+    tethers.forEach(function(th) {
+      const thid = th.getAttribute("data-cond-id");
+      const telem = th.getAttribute("data-elem-id");
+      const isReactingWithCond = REACTIONS.some(function(r) {
+        return r.condId === thid && (r.e1 === id || r.e2 === id);
+      });
+      if (id === telem || isReactingWithCond) {
+        th.classList.add("active");
+      } else {
+        th.classList.remove("active");
       }
     });
 
@@ -848,6 +1214,8 @@
   function selectReaction(r) {
     if (!r) return;
     selectedReactionId = r.id;
+    selectedConditionId = null;
+
     if (r.anim && typeof updateSpritePreview === "function") {
       updateSpritePreview(r.anim);
     }
@@ -857,21 +1225,39 @@
     if (!e1 || !e2) return;
 
     if (inspTitle) inspTitle.textContent = r.name;
-    if (inspFormula) inspFormula.textContent = e1.name + " + " + e2.name;
+    if (inspFormula) {
+      if (r.formula) {
+        inspFormula.textContent = r.formula;
+      } else {
+        inspFormula.textContent = e1.name + " + " + e2.name;
+      }
+    }
     if (inspDesc) inspDesc.textContent = r.desc;
     if (inspTip) inspTip.innerHTML = "<strong>Taktik:</strong> " + r.tip.replace(/^Taktik:s*/, "");
+
+    const condBadge = document.getElementById("inspCondBadge");
+    if (condBadge) {
+      condBadge.style.display = "none";
+    }
 
     if (inspIcon1) {
       inspIcon1.src = e1.icon;
       inspIcon1.alt = e1.name;
+      inspIcon1.style.display = "";
     }
     if (inspIcon2) {
       inspIcon2.src = e2.icon;
       inspIcon2.alt = e2.name;
+      inspIcon2.style.display = "";
+    }
+    const plusSpan = document.querySelector("#inspectorIcons .plus-sign");
+    if (plusSpan) {
+      plusSpan.style.display = "";
     }
 
     if (inspCatBadge) {
       const catMap = {
+        condition: "SISTEM STATUS CONDITION & FISIK",
         energi: "REAKSI ENERGI TINGGI",
         angin: "PUSARAN ANGIN (SWIRL)",
         tanah: "DEFENSIF & IMPAK TANAH",
@@ -883,7 +1269,8 @@
 
     const cables = document.querySelectorAll(".cable-conduit");
     cables.forEach(function(cb) {
-      if (cb.getAttribute("data-react-id") === r.id) {
+      const cid = cb.getAttribute("data-react-id");
+      if (cid === r.id) {
         cb.classList.add("selected", "active");
         cb.classList.remove("dimmed");
       } else {
@@ -899,6 +1286,28 @@
         c.classList.remove("dimmed");
       } else {
         c.classList.remove("active");
+      }
+    });
+
+    const condPills = document.querySelectorAll(".cond-crest");
+    condPills.forEach(function(cp) {
+      const cpid = cp.getAttribute("data-cond-id");
+      cp.classList.remove("selected");
+      if (r.condId && cpid === r.condId) {
+        cp.classList.add("active");
+        cp.classList.remove("dimmed");
+      } else {
+        cp.classList.remove("active");
+      }
+    });
+
+    const tethers = document.querySelectorAll(".cond-tether");
+    tethers.forEach(function(th) {
+      const thid = th.getAttribute("data-cond-id");
+      if (r.condId && thid === r.condId) {
+        th.classList.add("active");
+      } else {
+        th.classList.remove("active");
       }
     });
 
@@ -918,6 +1327,9 @@
 
     const filtered = REACTIONS.filter(function(r) {
       if (activeFilter === "all") return true;
+      if (activeFilter === "condition") {
+        return r.cat === "condition" || r.cat === "fisik";
+      }
       return r.cat === activeFilter;
     });
 
@@ -940,7 +1352,7 @@
           '<span class="react-badge">' + r.cat.toUpperCase() + '</span>' +
         '</div>' +
         '<h4 class="react-card-title">' + r.name + '</h4>' +
-        '<span class="react-formula-text">' + e1.name + ' + ' + e2.name + '</span>' +
+        '<span class="react-formula-text">' + (r.formula || (e1.name + " + " + e2.name)) + '</span>' +
         '<p class="react-desc-text">' + r.desc + '</p>';
 
       card.addEventListener("click", function() {
@@ -984,7 +1396,50 @@
       const g = cs.getContext("2d");
       const t = f / (totalFrames - 1);
 
-      if (kJenis === "shatters" || kJenis === "shatter") {
+      if (kJenis === "condition") {
+        const rotBase = t * Math.PI * 3;
+        const alpha = Math.max(0, 1 - Math.pow(t, 2.0));
+        const bgG = g.createRadialGradient(cx, cy, 2, cx, cy, 38);
+        bgG.addColorStop(0, "rgba(244, 63, 94, " + (0.75 * alpha) + ")");
+        bgG.addColorStop(0.5, "rgba(251, 113, 133, " + (0.35 * alpha) + ")");
+        bgG.addColorStop(1, "rgba(225, 29, 72, 0)");
+        g.fillStyle = bgG;
+        g.beginPath();
+        g.arc(cx, cy, 38, 0, Math.PI * 2);
+        g.fill();
+
+        g.strokeStyle = "rgba(244, 63, 94, " + (0.85 * (1 - t * 0.5)) + ")";
+        g.lineWidth = 2.4;
+        g.beginPath();
+        g.arc(cx, cy, 14 + t * 24, 0, Math.PI * 2);
+        g.stroke();
+
+        const motes = [
+          { ang: rotBase, color: "#38bdf8", r: 24 },
+          { ang: rotBase + Math.PI * 0.5, color: "#f97316", r: 24 },
+          { ang: rotBase + Math.PI, color: "#facc15", r: 24 },
+          { ang: rotBase + Math.PI * 1.5, color: "#d97706", r: 24 }
+        ];
+        motes.forEach(function(m) {
+          const mx = cx + Math.cos(m.ang) * m.r;
+          const my = cy + Math.sin(m.ang) * m.r;
+          g.fillStyle = m.color;
+          g.beginPath();
+          g.arc(mx, my, 4.5, 0, Math.PI * 2);
+          g.fill();
+          g.strokeStyle = "#ffffff";
+          g.lineWidth = 1.2;
+          g.stroke();
+        });
+
+        g.fillStyle = "#f43f5e";
+        g.beginPath();
+        g.arc(cx, cy, 7, 0, Math.PI * 2);
+        g.fill();
+        g.strokeStyle = "#ffffff";
+        g.lineWidth = 1.8;
+        g.stroke();
+      } else if (kJenis === "shatters" || kJenis === "shatter") {
         const alpha = Math.max(0, 1 - Math.pow(t, 1.8));
         const rBloom = 12 + t * 40;
         const bgG = g.createRadialGradient(cx, cy, 2, cx, cy, rBloom);

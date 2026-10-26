@@ -264,8 +264,18 @@
 
     <section id="reactions" class="reactions-section">
       <div class="section-header">
-        <h2 class="section-title">DIAGRAM REAKSI ELEMEN</h2>
-        <p class="section-subtitle">Infografik interaktif sinergi 8 atribut elemen jiwa dan kombinasi reaksi tempur</p>
+        <h2 class="section-title">DIAGRAM REAKSI ELEMEN & SISTEM CONDITION</h2>
+        <p class="section-subtitle">Infografik interaktif sinergi 8 elemen jiwa, sistem efek status Condition (Freeze, Burn, Paralyze, dll), dan reaksi tempur kinetik Fisik</p>
+      </div>
+
+      <div class="condition-info-banner">
+        <div class="condition-banner-badge">
+          <span class="badge-dot-rose"></span>
+          <span>SISTEM EFEK BARU: CONDITION</span>
+        </div>
+        <p class="condition-banner-text">
+          Saat musuh terkena serangan elemental atau gauge elemen penuh, mereka akan terinfusi status abnormal <strong>Condition</strong> (seperti <em>Freeze</em> oleh Es, <em>Burn</em> oleh Api, <em>Paralyze</em> oleh Petir, <em>Crystalize</em> oleh Tanah, dan <em>Thorny</em> oleh Nature). Elemen <strong>Fisik</strong> adalah elemen khusus yang bereaksi langsung dengan seluruh status Condition untuk meletuskan reaksi kinetik fatal!
+        </p>
       </div>
 
       <div class="chart-wrapper">
@@ -299,18 +309,18 @@
           </div>
 
           <div class="inspector-instruction">
-            <span>Klik panah reaksi atau ikon elemen di diagram untuk menginspeksi taktik sinergi.</span>
+            <span>Klik satelit Condition (Freeze, Burn, Paralyze, dll) untuk melihat efek statusnya, atau klik garis reaksi/nama reaksi untuk taktik kombos kinetik Fisik.</span>
           </div>
         </div>
       </div>
 
       <div class="reaction-filter-bar">
         <button class="btn-filter active" data-filter="all">Semua Reaksi</button>
+        <button class="btn-filter" data-filter="condition">Condition & Fisik</button>
         <button class="btn-filter" data-filter="energi">Reaksi Klasik</button>
         <button class="btn-filter" data-filter="angin">Pusaran Angin (Swirl)</button>
         <button class="btn-filter" data-filter="tanah">Tanah (Crystallize & Crush)</button>
         <button class="btn-filter" data-filter="nihil">Nihil (Ignis & Corrosion)</button>
-        <button class="btn-filter" data-filter="fisik">Fisik (Impak Kinetik)</button>
       </div>
 
       <div class="reactions-grid" id="reactionsGrid"></div>
